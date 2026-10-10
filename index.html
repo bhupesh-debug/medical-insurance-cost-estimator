@@ -917,7 +917,13 @@
           <button type="button" class="nav-btn" data-tab="tab-tasks" id="btn-tab-tasks">
             <span>&#128214;</span> Project Tasks &amp; Code
           </button>
+          <button type="button" class="nav-btn" data-tab="tab-medicare" id="btn-tab-medicare">
+            <span>&#127973;</span> Medicare &amp; Bankers Life Hub
+          </button>
         </div>
+        <a href="http://localhost:3001" target="_blank" class="nav-btn" style="text-decoration: none; background: rgba(56, 189, 248, 0.12); color: var(--primary); border: 1px solid var(--border-glow);" title="Open Bhupes Calling App on Port 3001">
+          <span>&#128222;</span> Calling App (Port 3001) &#8599;
+        </a>
 
         <button type="button" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">&#9790;</button>
       </div>
@@ -1420,6 +1426,283 @@ print("The change in estimated cost for having 1 additional child is " + str(cha
         </div>
       </div>
     </div>
+
+    <!-- TAB 4: MEDICARE & BANKERS LIFE FIELD HUB -->
+    <div class="tab-pane" id="tab-medicare">
+      <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: gap: 16px;">
+        <div>
+          <h2 style="font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;">🏥 Medicare &amp; Bankers Life Field Command Center</h2>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">
+            Official 2026 CMS Figures, Jason Hunt Agency Training Standards, PPSP EFT Calculator, Sales Scripts &amp; 18 Checkpoints.
+          </p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <a href="https://github.com/bhupesh-debug/medical-insurance-cost-estimator" target="_blank" class="nav-btn" style="text-decoration: none; background: var(--surface-2); border: 1px solid var(--border-subtle);">
+            <span>📁</span> GitHub Repo
+          </a>
+          <a href="http://localhost:3001" target="_blank" class="nav-btn" style="text-decoration: none; background: var(--primary); color: #fff;">
+            <span>📞</span> Open Calling App (3001)
+          </a>
+        </div>
+      </div>
+
+      <!-- 5 Magic Numbers Banner -->
+      <div class="kpi-banner">
+        <div class="kpi-card" style="--kpi-color: #38bdf8;">
+          <div class="kpi-title"><span>1. Part A Hospital Deductible</span><span>🏥</span></div>
+          <div class="kpi-value">$1,736.00</div>
+          <div class="kpi-sub">Per Benefit Period (Divisible by 2: $868 reserve, $434 days 61-90, $217 SNF)</div>
+        </div>
+
+        <div class="kpi-card" style="--kpi-color: #10b981;">
+          <div class="kpi-title"><span>2. Part B Monthly Premium</span><span>💳</span></div>
+          <div class="kpi-value">$202.90<span style="font-size: 1rem; color: var(--text-dim);">/mo</span></div>
+          <div class="kpi-sub">Standard premium deducted automatically from SSA benefit check</div>
+        </div>
+
+        <div class="kpi-card" style="--kpi-color: #f59e0b;">
+          <div class="kpi-title"><span>3. Part B Annual Deductible</span><span>🩺</span></div>
+          <div class="kpi-value">$283.00</div>
+          <div class="kpi-sub">Resets annually on January 1st; followed by 20% coinsurance (no cap)</div>
+        </div>
+
+        <div class="kpi-card" style="--kpi-color: #a855f7;">
+          <div class="kpi-title"><span>4. 1st IRMAA Threshold</span><span>📈</span></div>
+          <div class="kpi-value">$109k / $218k</div>
+          <div class="kpi-sub">$109,000 Single / $218,000 Married (MAGI from 2 years prior)</div>
+        </div>
+
+        <div class="kpi-card" style="--kpi-color: #f43f5e;">
+          <div class="kpi-title"><span>5. Bankers Life PPSP Formula</span><span>📝</span></div>
+          <div class="kpi-value" style="font-size: 1.35rem; font-family: var(--font-mono);">(Ann &times; 0.08583) + $1</div>
+          <div class="kpi-sub">Field Sticky Note Formula for monthly bank draft calculation</div>
+        </div>
+      </div>
+
+      <!-- 2-Column Grid for Calculators & Scripts -->
+      <div class="dashboard-grid" style="margin-bottom: 24px;">
+        <!-- Left Column: Bankers Life PPSP & Benefit Calculators -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h3 class="panel-title"><span>🧮</span> Bankers Life Field Calculators</h3>
+            <span class="panel-badge">Interactive Tools</span>
+          </div>
+
+          <!-- PPSP Calculator -->
+          <div style="background: var(--surface-2); padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <strong style="font-size: 0.95rem; color: var(--primary);">Bankers Life PPSP Premium Draft</strong>
+              <span class="factor-tag">Annual &times; 0.08583 + $1.00</span>
+            </div>
+            <div class="input-group" style="margin-bottom: 12px;">
+              <div class="input-header">
+                <label class="input-label" for="ppspAnnualInput">Annual Policy Premium ($):</label>
+                <span class="input-display" id="ppspAnnualDisplay">$1,850.00</span>
+              </div>
+              <input type="range" class="range-slider" id="ppspAnnualSlider" min="500" max="6000" value="1850" step="25">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(0,0,0,0.25); padding: 12px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.82rem;">
+              <div>Multiplier Share: <span id="ppspMultShare" style="color: #38bdf8;">$158.79</span></div>
+              <div>Admin Fee: <span style="color: #94a3b8;">+$1.00</span></div>
+              <div style="grid-column: span 2; font-size: 1.05rem; font-weight: 700; color: #10b981; border-top: 1px solid var(--border-subtle); padding-top: 6px; margin-top: 4px;">
+                Monthly PPSP EFT: <span id="ppspMonthlyResult">$159.79 / mo</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Part A Hospital Stay Calculator -->
+          <div style="background: var(--surface-2); padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <strong style="font-size: 0.95rem; color: #38bdf8;">Part A Hospital Patient Liability</strong>
+              <span class="factor-tag">$1,736 Ded | $434 | $868</span>
+            </div>
+            <div class="input-group" style="margin-bottom: 12px;">
+              <div class="input-header">
+                <label class="input-label" for="partADaysSlider">Days Inpatient in Hospital:</label>
+                <span class="input-display" id="partADaysDisplay">75 days</span>
+              </div>
+              <input type="range" class="range-slider" id="partADaysSlider" min="1" max="160" value="75" step="1">
+            </div>
+            <div id="partABreakdownBox" style="font-size: 0.8rem; line-height: 1.6; color: var(--text-muted); background: rgba(0,0,0,0.25); padding: 12px; border-radius: var(--radius-sm); font-family: var(--font-mono);">
+              <!-- Updated via JS -->
+            </div>
+          </div>
+
+          <!-- Skilled Nursing Facility Calculator -->
+          <div style="background: var(--surface-2); padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <strong style="font-size: 0.95rem; color: #10b981;">SNF Rehabilitation Stay</strong>
+              <span class="factor-tag">Days 1-20: $0 | Days 21-100: $217/day</span>
+            </div>
+            <div class="input-group" style="margin-bottom: 12px;">
+              <div class="input-header">
+                <label class="input-label" for="snfDaysSlider">Days in Skilled Nursing Rehab:</label>
+                <span class="input-display" id="snfDaysDisplay">45 days</span>
+              </div>
+              <input type="range" class="range-slider" id="snfDaysSlider" min="1" max="110" value="45" step="1">
+            </div>
+            <div id="snfBreakdownBox" style="font-size: 0.8rem; line-height: 1.6; color: var(--text-muted); background: rgba(0,0,0,0.25); padding: 12px; border-radius: var(--radius-sm); font-family: var(--font-mono);">
+              <!-- Updated via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Compliant Sales Scripts & Closing Techniques -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h3 class="panel-title"><span>📜</span> Compliant Sales Scripts &amp; Closings</h3>
+            <span class="panel-badge">Bankers Life Field Guide</span>
+          </div>
+
+          <!-- Script Selector Pills -->
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;">
+            <button type="button" class="preset-chip active" style="background: var(--primary); color: #fff;" onclick="showScriptView('iep')">Scenario A: Turning 65 (IEP)</button>
+            <button type="button" class="preset-chip" onclick="showScriptView('working65')">Scenario B: Working Past 65 (SEP)</button>
+            <button type="button" class="preset-chip" onclick="showScriptView('under65')">Scenario C: Under 65</button>
+            <button type="button" class="preset-chip" onclick="showScriptView('tchart')">Social Security T-Chart Close</button>
+            <button type="button" class="preset-chip" onclick="showScriptView('assumptive')">Assumptive Close</button>
+            <button type="button" class="preset-chip" onclick="showScriptView('compliance')">Form 6862 Notice</button>
+          </div>
+
+          <!-- Dynamic Script Display Box -->
+          <div id="scriptDisplayCard" style="background: var(--surface-2); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 20px; line-height: 1.6;">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Social Security T-Chart Visualizer -->
+          <div style="margin-top: 18px; border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+            <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+              <span>Social Security T-Chart Comparison</span>
+              <span style="font-size: 0.72rem; color: var(--text-dim); font-family: var(--font-mono);">Jason Hunt Closing Tool</span>
+            </h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; text-align: center;">
+              <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.25); border-radius: var(--radius-sm); padding: 14px;">
+                <div style="font-size: 1.35rem; font-weight: 800; color: #f43f5e; font-family: var(--font-mono);">$1,700 Check</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Original Medicare Alone</div>
+                <ul style="text-align: left; font-size: 0.76rem; color: var(--text-muted); margin-top: 8px; padding-left: 18px; line-height: 1.5;">
+                  <li>Only Part A &amp; Part B coverage</li>
+                  <li>$1,736 Hospital Deductible per stay</li>
+                  <li>20% Doctor coinsurance with NO cap</li>
+                  <li>Big unexpected medical bills risk</li>
+                </ul>
+              </div>
+
+              <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-sm); padding: 14px;">
+                <div style="font-size: 1.35rem; font-weight: 800; color: #10b981; font-family: var(--font-mono);">$1,500 Check</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">With Bankers Life Supplement</div>
+                <ul style="text-align: left; font-size: 0.76rem; color: var(--text-muted); margin-top: 8px; padding-left: 18px; line-height: 1.5;">
+                  <li>Full Hospital stay paid 100%</li>
+                  <li>Doctor coverage after small $283 deductible</li>
+                  <li>Up to 100 days skilled rehab covered</li>
+                  <li>100% Personal claims assistance</li>
+                </ul>
+              </div>
+            </div>
+            <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; font-style: italic;">
+              "Mr. and Mrs. Jones, which check would you rather have? ... Why do you say that?"
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medigap Standardized Plan Matrix (Plans A–N) -->
+      <div class="glass-panel" style="margin-bottom: 24px;">
+        <div class="panel-header">
+          <h3 class="panel-title"><span>🛡️</span> Standardized Medigap Plans Comparison Matrix (2026)</h3>
+          <span class="panel-badge">Plans A–N</span>
+        </div>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: center;">
+            <thead>
+              <tr style="background: var(--surface-2); border-bottom: 2px solid var(--border-subtle); color: var(--text-muted);">
+                <th style="padding: 10px; text-align: left;">Benefit</th>
+                <th style="padding: 10px;">Plan A</th>
+                <th style="padding: 10px;">Plan B</th>
+                <th style="padding: 10px;">Plan C*</th>
+                <th style="padding: 10px;">Plan D</th>
+                <th style="padding: 10px;">Plan F*</th>
+                <th style="padding: 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 800;">Plan G ★</th>
+                <th style="padding: 10px;">Plan K</th>
+                <th style="padding: 10px;">Plan L</th>
+                <th style="padding: 10px;">Plan M</th>
+                <th style="padding: 10px; background: rgba(16, 185, 129, 0.15); color: #10b981; font-weight: 800;">Plan N</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 10px; text-align: left; font-weight: 600;">Part A Coinsurance &amp; Hospital Costs (extra 365 days)</td>
+                <td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td style="background: rgba(56, 189, 248, 0.08); font-weight: 700;">100%</td><td>100%</td><td>100%</td><td>100%</td><td style="background: rgba(16, 185, 129, 0.08); font-weight: 700;">100%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 10px; text-align: left; font-weight: 600;">Part B Coinsurance / Copayment</td>
+                <td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td style="background: rgba(56, 189, 248, 0.08); font-weight: 700;">100%</td><td>50%</td><td>75%</td><td>100%</td><td style="background: rgba(16, 185, 129, 0.08); font-weight: 700;">Copays apply</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 10px; text-align: left; font-weight: 600;">Blood (First 3 Pints)</td>
+                <td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td style="background: rgba(56, 189, 248, 0.08); font-weight: 700;">100%</td><td>50%</td><td>75%</td><td>100%</td><td style="background: rgba(16, 185, 129, 0.08); font-weight: 700;">100%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 10px; text-align: left; font-weight: 600;">Part A Hospice Coinsurance</td>
+                <td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td style="background: rgba(56, 189, 248, 0.08); font-weight: 700;">100%</td><td>50%</td><td>75%</td><td>100%</td><td style="background: rgba(16, 185, 129, 0.08); font-weight: 700;">100%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 10px; text-align: left; font-weight: 600;">Skilled Nursing Facility (SNF) Coinsurance</td>
+                <td>-</td><td>-</td><td>100%</td><td>100%</td><td>100%</td><td style="background: rgba(56, 189, 248, 0.08); font-weight: 700;">100%</td><td>50%</td><td>75%</td><td>100%</td><td style="background: rgba(16, 185, 129, 0.08); font-weight: 700;">100%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 10px; text-align: left; font-weight: 600;">Part A Hospital Deductible ($1,736)</td>
+                <td>-</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td style="background: rgba(56, 189, 248, 0.08); font-weight: 700; color: #10b981;">100%</td><td>50%</td><td>75%</td><td>50%</td><td style="background: rgba(16, 185, 129, 0.08); font-weight: 700; color: #10b981;">100%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 10px; text-align: left; font-weight: 600;">Part B Medical Deductible ($283)</td>
+                <td>-</td><td>-</td><td style="color: #f59e0b;">100%</td><td>-</td><td style="color: #f59e0b;">100%</td><td style="background: rgba(56, 189, 248, 0.08);">-</td><td>-</td><td>-</td><td>-</td><td style="background: rgba(16, 185, 129, 0.08);">-</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 10px; text-align: left; font-weight: 600;">Part B Excess Charges (15% Limiting Charge)</td>
+                <td>-</td><td>-</td><td>-</td><td>-</td><td>100%</td><td style="background: rgba(56, 189, 248, 0.08); font-weight: 700; color: #10b981;">100%</td><td>-</td><td>-</td><td>-</td><td style="background: rgba(16, 185, 129, 0.08);">-</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; text-align: left; font-weight: 600;">Foreign Travel Emergency (80%)</td>
+                <td>-</td><td>-</td><td>80%</td><td>80%</td><td>80%</td><td style="background: rgba(56, 189, 248, 0.08); font-weight: 700;">80%</td><td>-</td><td>-</td><td>80%</td><td style="background: rgba(16, 185, 129, 0.08); font-weight: 700;">80%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.74rem; color: var(--text-dim); margin-top: 10px;">
+          * Plans C and F are closed to beneficiaries newly eligible for Medicare on or after January 1, 2020. Plan G is the current premier standard.
+        </p>
+      </div>
+
+      <!-- 2-Column: 18 Checkpoints & Searchable Glossary -->
+      <div class="dashboard-grid">
+        <!-- Checkpoint Questions Accordion -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h3 class="panel-title"><span>📝</span> Bankers Life 18 Checkpoints Q&amp;A</h3>
+            <span class="panel-badge">Participant Guide p. 42–44</span>
+          </div>
+          <div id="checkpointsAccordion" style="display: flex; flex-direction: column; gap: 8px; max-height: 520px; overflow-y: auto; padding-right: 6px;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Searchable Medicare Dictionary -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h3 class="panel-title"><span>📖</span> Searchable Medicare Glossary</h3>
+            <span class="panel-badge">CMS Definitions</span>
+          </div>
+          <div style="margin-bottom: 14px;">
+            <input type="text" id="glossarySearchInput" placeholder="Search terms (e.g., IRMAA, Assignment, Benefit Period, MBI, SNF)..." 
+                   style="width: 100%; padding: 10px 14px; background: var(--surface-2); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-main); font-family: inherit; font-size: 0.88rem; outline: none;">
+          </div>
+          <div id="glossaryResultsList" style="display: flex; flex-direction: column; gap: 10px; max-height: 460px; overflow-y: auto; padding-right: 6px;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -1705,6 +1988,240 @@ print("The change in estimated cost for having 1 additional child is " + str(cha
           setTimeout(() => btn.innerText = orig, 1800);
         });
       }
+    }
+
+
+    // =========================================================================
+    // MEDICARE & BANKERS LIFE HUB INTERACTIVE LOGIC
+    // =========================================================================
+    const ppspAnnualSlider = document.getElementById('ppspAnnualSlider');
+    const ppspAnnualDisplay = document.getElementById('ppspAnnualDisplay');
+    const ppspMultShare = document.getElementById('ppspMultShare');
+    const ppspMonthlyResult = document.getElementById('ppspMonthlyResult');
+
+    function updatePPSP() {
+      if (!ppspAnnualSlider) return;
+      const annual = parseFloat(ppspAnnualSlider.value);
+      const multShare = annual * 0.08583;
+      const total = multShare + 1.00;
+      ppspAnnualDisplay.textContent = '$' + annual.toLocaleString('en-US', { minimumFractionDigits: 2 });
+      ppspMultShare.textContent = '$' + multShare.toFixed(2);
+      ppspMonthlyResult.textContent = '$' + total.toFixed(2) + ' / mo';
+    }
+
+    if (ppspAnnualSlider) {
+      ppspAnnualSlider.addEventListener('input', updatePPSP);
+      updatePPSP();
+    }
+
+    // Part A Inpatient Calculator
+    const partADaysSlider = document.getElementById('partADaysSlider');
+    const partADaysDisplay = document.getElementById('partADaysDisplay');
+    const partABreakdownBox = document.getElementById('partABreakdownBox');
+
+    function updatePartA() {
+      if (!partADaysSlider) return;
+      const days = parseInt(partADaysSlider.value);
+      partADaysDisplay.textContent = days + (days === 1 ? ' day' : ' days');
+
+      const ded = 1736.00;
+      let total = ded;
+      let reserveUsed = 0;
+      let html = '<div>* Days 1–' + Math.min(days, 60) + ': Covered under Part A Deductible ($1,736.00)</div>';
+
+      if (days > 60) {
+        const d61_90 = Math.min(days, 90) - 60;
+        const c61_90 = d61_90 * 434;
+        total += c61_90;
+        html += '<div>* Days 61–' + Math.min(days, 90) + ' (' + d61_90 + ' days x $434/day): $' + c61_90.toLocaleString() + '</div>';
+      }
+      if (days > 90) {
+        reserveUsed = Math.min(days, 150) - 90;
+        const c91_150 = reserveUsed * 868;
+        total += c91_150;
+        html += '<div>* Days 91–' + Math.min(days, 150) + ' (' + reserveUsed + ' reserve days x $868/day): $' + c91_150.toLocaleString() + '</div>';
+      }
+      if (days > 150) {
+        const unc = days - 150;
+        html += '<div style="color: #f43f5e;">* Days 151+ (' + unc + ' days): 100% UNCOVERED by Medicare! Patient pays all costs.</div>';
+      }
+
+      html += '<div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border-subtle); color: #fff; font-weight: 700;">' +
+              'Total Out-of-Pocket: $' + total.toLocaleString(undefined, {minimumFractionDigits: 2}) + 
+              ' | Lifetime Reserve Days Left: ' + (60 - reserveUsed) + '/60</div>';
+      html += '<div style="color: #10b981; font-weight: 600; margin-top: 2px;">Plan G Protection: $0 out-of-pocket (100% covered)</div>';
+      partABreakdownBox.innerHTML = html;
+    }
+
+    if (partADaysSlider) {
+      partADaysSlider.addEventListener('input', updatePartA);
+      updatePartA();
+    }
+
+    // SNF Calculator
+    const snfDaysSlider = document.getElementById('snfDaysSlider');
+    const snfDaysDisplay = document.getElementById('snfDaysDisplay');
+    const snfBreakdownBox = document.getElementById('snfBreakdownBox');
+
+    function updateSNF() {
+      if (!snfDaysSlider) return;
+      const days = parseInt(snfDaysSlider.value);
+      snfDaysDisplay.textContent = days + (days === 1 ? ' day' : ' days');
+
+      let total = 0;
+      let html = '<div>* Days 1–' + Math.min(days, 20) + ': Covered 100% by Medicare ($0 patient copay)</div>';
+
+      if (days > 20) {
+        const d21_100 = Math.min(days, 100) - 20;
+        const c21_100 = d21_100 * 217;
+        total += c21_100;
+        html += '<div>* Days 21–' + Math.min(days, 100) + ' (' + d21_100 + ' days x $217/day): $' + c21_100.toLocaleString() + '</div>';
+      }
+      if (days > 100) {
+        const unc = days - 100;
+        html += '<div style="color: #f43f5e;">* Days 101+ (' + unc + ' days): 100% UNCOVERED by Medicare! Custodial/LTC needed.</div>';
+      }
+
+      html += '<div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border-subtle); color: #fff; font-weight: 700;">' +
+              'Total SNF Out-of-Pocket: $' + total.toLocaleString(undefined, {minimumFractionDigits: 2}) + '</div>';
+      html += '<div style="color: #10b981; font-weight: 600; margin-top: 2px;">Plan G Protection: $0 out-of-pocket (Pays $217/day coinsurance)</div>';
+      snfBreakdownBox.innerHTML = html;
+    }
+
+    if (snfDaysSlider) {
+      snfDaysSlider.addEventListener('input', updateSNF);
+      updateSNF();
+    }
+
+    // Scripts Viewer
+    const scriptsData = {
+      iep: {
+        title: "Scenario A: Turning 65 Soon (Initial Enrollment Period)",
+        prospect: "I'm turning 65 in a few months, so I haven't signed up yet.",
+        agent: "That makes complete sense! You are entering your Initial Enrollment Period—a 7-month window (3 months before, your birthday month, and 3 months after). Signing up on time protects you from lifelong Part B penalties (10% per 12-month delay) and Part D drug penalties. While Original Medicare covers hospital and medical care, it leaves out-of-pocket gaps like the Part A hospital deductible ($1,736) and 20% Part B co-insurance with no cap. If I could show you how a Bankers Life plan fills those gaps within your budget, would that interest you?"
+      },
+      working65: {
+        title: "Scenario B: Working Past 65 (Active Group Employer Plan)",
+        prospect: "I'm 67, but I'm still working and covered under my company's group health plan.",
+        agent: "That is very common today! Because you have coverage based on active employment, you qualify for an 8-month Special Enrollment Period (SEP) when you retire without penalty. (Note: COBRA or retiree plans do not qualify as active employment). Many retirees find that transitioning to Original Medicare with a Bankers Life Supplement offers broader doctor choice and lower out-of-pocket costs than group plans. When you prepare to retire, would you like us to review a side-by-side comparison?"
+      },
+      under65: {
+        title: "Scenario C: Under 65 / Not Eligible for Medicare",
+        prospect: "I'm only 58, so I'm nowhere near Medicare age.",
+        agent: "I completely understand. Medicare is designed for age 65+ or specific qualifying disabilities. Since Medicare isn't part of your immediate picture, our focus today is protecting your income and accumulated savings from non-Medicare healthcare risks before you retire: 1) Assisted Care / Short-Term Care: Standard health plans do not cover extended in-home or facility care. 2) Critical Illness Cash Benefits: Cancer, stroke, or heart attacks create non-medical expense gaps. 3) Final Expenses: Ensuring burial costs never become a cash burden on your children. Which of these non-Medicare areas is most important for us to address today?"
+      },
+      tchart: {
+        title: "The Social Security T-Chart Close",
+        prospect: "I just don't know if I can afford another insurance payment.",
+        agent: "I can appreciate your saying that, Mr. and Mrs. Jones. Let's look at it this way—suppose that tomorrow the federal government overhauled Social Security and you could actually choose the type of check you would receive each month. The first choice is a $1,700 Social Security check. With this first check, however, you get only Part A and Part B of Medicare. As we've seen, when you get sick or hurt, you could be responsible for sizeable medical bills for costs that Medicare doesn't cover. The second choice you have is a $1,500 Social Security check per month. But you get extra benefits with this check. With this check, you get Part A and Part B just as you did with the $1,700 choice. But in addition, you get further hospital coverage, doctor coverage after $283 deductible, up to 100 days of skilled care in a nursing home, home health care, and 100% service regarding claim support. Mr. and Mrs. Jones, which check would you rather have? ... Why do you say that? ... Well, we obviously can't change your Social Security check. But what we can do is make sure you have all the coverage many people find they need to supplement their Medicare plan."
+      },
+      assumptive: {
+        title: "The Assumptive Close",
+        prospect: "Option 2 looks like the right coverage for me.",
+        agent: "Great decision choosing Option 2, John! In order to get this application started and protect your family, I just need the correct spelling of your beneficiary's full name... (Stop talking and write on application)"
+      },
+      compliance: {
+        title: "Mandatory Compliance Notice (Form 6862)",
+        prospect: "Are you from the government Medicare office?",
+        agent: "Bankers Life, Washington National, and their agents are not connected with or endorsed by the U.S. government or the federal Medicare program. When discussing Medicare options, agents MUST provide 'A Guide to Health Insurance for People with Medicare' (Form 6862)."
+      }
+    };
+
+    function showScriptView(key) {
+      const data = scriptsData[key];
+      if (!data) return;
+      document.querySelectorAll('#tab-medicare .preset-chip').forEach(btn => btn.style.background = 'var(--surface-2)');
+      const targetBtn = Array.from(document.querySelectorAll('#tab-medicare .preset-chip')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(key));
+      if (targetBtn) targetBtn.style.background = 'var(--primary)';
+
+      const card = document.getElementById('scriptDisplayCard');
+      card.innerHTML = `
+        <h4 style="font-size: 1.05rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">${data.title}</h4>
+        <div style="margin-bottom: 10px; font-size: 0.86rem;"><strong style="color: #f472b6;">Prospect:</strong> <em>"${data.prospect}"</em></div>
+        <div style="font-size: 0.88rem; color: #e2e8f0; background: rgba(0,0,0,0.25); padding: 14px; border-radius: var(--radius-sm); border-left: 3px solid var(--primary);">
+          <strong style="color: #10b981;">Agent:</strong> "${data.agent}"
+        </div>
+      `;
+    }
+    showScriptView('iep');
+
+    // 18 Checkpoints Data
+    const checkpointsList = [
+      { q: "1. How many parts are there to Medicare?", a: "There are 4 parts: Part A (Hospital), Part B (Medical), Part C (Medicare Advantage), and Part D (Prescription Drugs)." },
+      { q: "2. What is Medicaid?", a: "Medicaid is aid for the poor: joint federal/state program for low-income individuals with assets generally below $2,000." },
+      { q: "3. What word best summarizes all of Part A's coverage?", a: "Hospital (Inpatient care: inpatient hospital, SNF rehab, hospice, home health)." },
+      { q: "4. What two requirements must be met to qualify for Part A benefits?", a: "Formally admitted as an inpatient with a physician's order, and receive medically necessary skilled care." },
+      { q: "5. What is the current deductible for Part-A?", a: "$1,736 in 2026 ($1,676 in 2025) per benefit period." },
+      { q: "6. When does the new benefit period start for Part-A?", a: "When formally admitted as an inpatient. Ends after 60 consecutive days out of hospital/SNF." },
+      { q: "7. What are the limitations to Part-A Skilled Nursing Care?", a: "3-day inpatient hospital stay required; admitted to SNF within 30 days for same condition; max 100 days (Days 1–20: $0; Days 21–100: $217/day coinsurance; Day 101+: $0 paid)." },
+      { q: "8. How would you summarize Part B coverage?", a: "Medical (Outpatient care: doctors, specialists, outpatient surgery, DME, diagnostic tests, labs, preventive visits)." },
+      { q: "9. Who qualifies for Part B?", a: "Age 65+, OR under 65 receiving SSDI for 24 months, OR diagnosed with ESRD or ALS." },
+      { q: "10. What are the deductible and co-pay limits to Part-B?", a: "Annual deductible is $283 (2026); coinsurance is 20% of Medicare-approved amount with NO annual out-of-pocket maximum." },
+      { q: "11. What is the monthly premium for Part B?", a: "Standard is $202.90 in 2026 ($185 in 2025), deducted from Social Security check (higher with IRMAA)." },
+      { q: "12. What is another name for Part C?", a: "Medicare Advantage (MA / MAPD)." },
+      { q: "13. Describe Part C.", a: "Private Medicare-approved network plans (HMO/PPO) bundling Parts A & B (and usually D) with an annual out-of-pocket maximum." },
+      { q: "14. What is covered under Part D?", a: "Outpatient prescription drugs across formulary tiers, and adult vaccines (shingles, tetanus) at $0 copay." },
+      { q: "15. What happens when someone does not enroll in Part-D when eligible?", a: "Permanent lifetime late penalty of 1% of base premium ($38.99 in 2026) per uncovered month." },
+      { q: "16. Does Medicare cover custodial care?", a: "NO. Medicare does NOT cover non-skilled personal care (bathing, dressing, non-skilled nursing home stays)." },
+      { q: "17. What other products do we offer that can provide more thorough coverage for Skilled Nursing Care?", a: "Short-Term Care (STC) / Long-Term Care (LTC) insurance and Bankers Life Medicare Supplements." },
+      { q: "18. Can you ask health questions during an open enrollment period? Why?", a: "NO. Applicants have Guaranteed Issue Rights: insurance companies must issue policies at preferred rates without health underwriting." }
+    ];
+
+    const cpAccordion = document.getElementById('checkpointsAccordion');
+    if (cpAccordion) {
+      cpAccordion.innerHTML = checkpointsList.map((item, idx) => `
+        <details style="background: var(--surface-2); padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); cursor: pointer;">
+          <summary style="font-weight: 600; color: #38bdf8; outline: none; font-size: 0.84rem;">${item.q}</summary>
+          <div style="margin-top: 8px; font-size: 0.82rem; color: #e2e8f0; line-height: 1.5; padding-left: 10px; border-left: 2px solid #10b981;">
+            ${item.a}
+          </div>
+        </details>
+      `).join('');
+    }
+
+    // Glossary Search
+    const glossaryData = [
+      { term: "Assignment", def: "Agreement by doctor to accept Medicare-approved rates as payment in full. Cannot balance bill." },
+      { term: "Benefit Period", def: "Starts day of hospital admission; ends after 60 consecutive days out. Triggers new $1,736 deductible." },
+      { term: "Coinsurance", def: "The percentage you pay after meeting deductibles (e.g. 20% for Part B, $434/day for Part A days 61-90)." },
+      { term: "Copayment", def: "A fixed dollar amount paid for a service (e.g. $20 office visit copay under Medigap Plan N)." },
+      { term: "Creditable Coverage", def: "Prescription coverage as good as standard Part D (employer, VA, TRICARE). Exempts from late penalty." },
+      { term: "DME", def: "Durable Medical Equipment (wheelchairs, walkers, oxygen) covered under Part B (80/20 coinsurance)." },
+      { term: "Formulary", def: "List of prescription drugs covered by a Part D plan, organized into Tiers 1 through 5." },
+      { term: "IRMAA", def: "Income-Related Monthly Adjustment Amount: surcharge for MAGI >$109k single / >$218k married based on tax return from 2 yrs ago." },
+      { term: "Lifetime Reserve Days", def: "60 non-renewable days Medicare covers beyond 90 hospital days at $868/day coinsurance." },
+      { term: "MBI", def: "Medicare Beneficiary Identifier: 11-character number on card. Never uses letters S, L, O, I, B, or Z." },
+      { term: "Medicaid", def: "Joint federal/state aid for low-income individuals with assets generally <$2,000 ('Aid for the poor')." },
+      { term: "Medigap", def: "Private standardized supplemental policies (Plans A-N) that pay Medicare deductibles and coinsurances." },
+      { term: "MOON", def: "Medicare Outpatient Observation Notice: given to patients held in observation status >24 hours." },
+      { term: "PPSP", def: "Bankers Life Premium Payment Service Plan: Monthly EFT = (Annual Premium x 0.08583) + $1.00." },
+      { term: "SNF", def: "Skilled Nursing Facility: short-term rehab requiring 3-day hospital inpatient stay within 30 days." }
+    ];
+
+    const glossaryInput = document.getElementById('glossarySearchInput');
+    const glossaryList = document.getElementById('glossaryResultsList');
+
+    function renderGlossary(filterText = '') {
+      if (!glossaryList) return;
+      const filtered = glossaryData.filter(g => 
+        g.term.toLowerCase().includes(filterText.toLowerCase()) || 
+        g.def.toLowerCase().includes(filterText.toLowerCase())
+      );
+      if (filtered.length === 0) {
+        glossaryList.innerHTML = '<div style="color: var(--text-dim); font-size: 0.85rem; padding: 10px;">No matching terms found.</div>';
+        return;
+      }
+      glossaryList.innerHTML = filtered.map(g => `
+        <div style="background: var(--surface-2); padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <strong style="color: #38bdf8; font-size: 0.86rem;">${g.term}</strong>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; line-height: 1.4;">${g.def}</p>
+        </div>
+      `).join('');
+    }
+
+    if (glossaryInput) {
+      glossaryInput.addEventListener('input', (e) => renderGlossary(e.target.value));
+      renderGlossary();
     }
 
     // Initialize
