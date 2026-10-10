@@ -1,0 +1,19 @@
+{
+  "name": "medical-insurance-project",
+  "version": "1.0.0",
+  "description": "Codecademy Python Syntax Medical Insurance Project & Interactive Actuarial Simulator",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "python": "python script.py",
+    "test": "python script.py"
+  },
+  "keywords": [
+    "medical-insurance",
+    "python-syntax",
+    "actuarial-calculator",
+    "codecademy"
+  ],
+  "author": "Bhupesh",
+  "license": "MIT"
+}

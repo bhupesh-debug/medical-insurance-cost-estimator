@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCalc Pro &mdash; Medical Insurance Cost & Factor Analysis Lab</title>
+  <meta name="description" content="Interactive Medical Insurance Cost Estimator, Sensitivity Lab, and Codecademy Python Syntax Project Explorer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 15% 15%, #0f172a 0%, #030712 100%);
+      --surface-1: rgba(17, 24, 39, 0.75);
+      --surface-2: rgba(31, 41, 55, 0.65);
+      --surface-card: rgba(15, 23, 42, 0.82);
+      --surface-hover: rgba(51, 65, 85, 0.6);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(56, 189, 248, 0.3);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --primary-glow: rgba(56, 189, 248, 0.25);
+      --accent-emerald: #10b981;
+      --accent-emerald-glow: rgba(16, 185, 129, 0.25);
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #a855f7;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.25);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    [data-theme="light"] {
+      --bg-gradient: radial-gradient(circle at 10% 10%, #f0fdf4 0%, #f8fafc 100%);
+      --surface-1: rgba(255, 255, 255, 0.88);
+      --surface-2: rgba(241, 245, 249, 0.9);
+      --surface-card: rgba(255, 255, 255, 0.95);
+      --surface-hover: rgba(226, 232, 240, 0.8);
+      --border-subtle: rgba(0, 0, 0, 0.08);
+      --border-glow: rgba(14, 165, 233, 0.4);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-glow: rgba(2, 132, 199, 0.2);
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 15px 25px -5px rgba(0, 0, 0, 0.08);
+      --shadow-glow: 0 0 20px rgba(2, 132, 199, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+      padding-bottom: 60px;
+    }
+
+    /* Ambient animated backdrop */
+    .ambient-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+      animation: floatGlow 22s infinite alternate ease-in-out;
+    }
+    .glow-1 { top: -150px; left: -100px; background: #0284c7; }
+    .glow-2 { bottom: -150px; right: -100px; background: #8b5cf6; }
+    .glow-3 { top: 40%; left: 55%; background: #10b981; opacity: 0.18; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, 30px) scale(1.1); }
+      100% { transform: translate(-30px, -20px) scale(0.95); }
+    }
+
+    /* Top Navigation */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: var(--surface-1);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .header-inner {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);
+      font-size: 22px;
+      color: #fff;
+    }
+
+    .brand-text h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-text h1 span.badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .brand-text p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-main);
+      background: var(--surface-hover);
+    }
+
+    .nav-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+
+    .theme-toggle-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .theme-toggle-btn:hover {
+      color: var(--text-main);
+      border-color: var(--border-glow);
+    }
+
+    /* Container */
+    main.main-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1380px;
+      margin: 28px auto 0;
+      padding: 0 24px;
+    }
+
+    /* Tab Panes */
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Top KPI Hero Bar */
+    .kpi-banner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--kpi-color, var(--primary)), transparent);
+    }
+
+    .kpi-title {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .kpi-value {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .kpi-sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* Layout grid for Simulator */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Glass Panels */
+    .glass-panel {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(16px);
+      position: relative;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .panel-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 6px;
+      background: var(--surface-2);
+      color: var(--primary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Input Controls */
+    .controls-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .input-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .input-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .input-display {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--primary);
+      background: var(--surface-2);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Custom Sliders */
+    .range-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--surface-2);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2px solid #fff;
+      box-shadow: 0 0 10px var(--primary-glow);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.18);
+    }
+
+    .slider-ticks {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    /* Toggle switches */
+    .toggle-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-toggle-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--surface-2);
+      border-radius: var(--radius-sm);
+      padding: 4px;
+      gap: 4px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-toggle {
+      border: none;
+      background: transparent;
+      padding: 9px 16px;
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-toggle.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 6px var(--primary-glow);
+    }
+
+    .btn-toggle.active-danger {
+      background: var(--accent-rose);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(244, 63, 94, 0.35);
+    }
+
+    /* Quick Preset Buttons */
+    .presets-container {
+      margin-top: 10px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .preset-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-right: 4px;
+    }
+
+    .preset-chip {
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .preset-chip:hover {
+      background: var(--surface-hover);
+      color: var(--text-main);
+      border-color: var(--border-glow);
+      transform: translateY(-1px);
+    }
+
+    /* Formula & Results Card */
+    .results-hero {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(99, 102, 241, 0.08));
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .results-hero::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      background: var(--primary);
+      filter: blur(80px);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .results-hero-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .cost-main-display {
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      margin-bottom: 8px;
+    }
+
+    .cost-secondary-display {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .cost-secondary-display strong {
+      color: var(--accent-emerald);
+      font-family: var(--font-mono);
+    }
+
+    /* Live Equation Viewer */
+    .equation-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .equation-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .equation-text {
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .eq-num { color: #38bdf8; font-weight: 600; }
+    .eq-var { color: #f472b6; }
+    .eq-op { color: #94a3b8; }
+    .eq-res { color: #10b981; font-weight: 700; }
+
+    /* Factors Waterfall / Breakdown */
+    .factors-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .factor-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .factor-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.84rem;
+    }
+
+    .factor-name {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .factor-tag {
+      font-size: 0.68rem;
+      font-family: var(--font-mono);
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--surface-2);
+      color: var(--text-dim);
+    }
+
+    .factor-val {
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .val-positive { color: #10b981; }
+    .val-negative { color: #f43f5e; }
+    .val-neutral { color: var(--text-muted); }
+
+    .factor-bar-bg {
+      height: 7px;
+      border-radius: 4px;
+      background: var(--surface-2);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .factor-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Sensitivity Lab View */
+    .sensitivity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .sensitivity-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sens-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .sens-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sens-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .sens-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    .sens-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .metric-box-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .metric-box-val {
+      font-size: 1.25rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      margin-top: 2px;
+    }
+
+    .sens-action-btn {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      color: var(--primary);
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .sens-action-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* Tasks / Codecademy Walkthrough View */
+    .tasks-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .task-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .task-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .task-num-badge {
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .task-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .task-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .code-block-wrapper {
+      position: relative;
+      background: #090d16;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.72rem;
+    }
+    .copy-btn:hover { color: #fff; border-color: var(--primary); }
+
+    pre.code-content {
+      padding: 14px 16px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    .terminal-output {
+      background: rgba(16, 185, 129, 0.06);
+      border-left: 3px solid #10b981;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #10b981;
+    }
+
+    .reflection-callout {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      font-size: 0.84rem;
+      color: #c7d2fe;
+    }
+    .reflection-callout strong { color: #fff; }
+
+    /* Footer */
+    footer.site-footer {
+      max-width: 1380px;
+      margin: 40px auto 0;
+      padding: 24px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-wrap">
+        <div class="brand-logo">&#9877;</div>
+        <div class="brand-text">
+          <h1>MediCalc Pro <span class="badge">Codecademy Project</span></h1>
+          <p>Medical Insurance Cost Modeling &amp; Factor Sensitivity Lab</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="nav-tabs" role="tablist">
+          <button type="button" class="nav-btn active" data-tab="tab-simulator" id="btn-tab-sim">
+            <span>&#9881;</span> Simulator &amp; Formula
+          </button>
+          <button type="button" class="nav-btn" data-tab="tab-sensitivity" id="btn-tab-sens">
+            <span>&#128200;</span> Sensitivity Lab
+          </button>
+          <button type="button" class="nav-btn" data-tab="tab-tasks" id="btn-tab-tasks">
+            <span>&#128214;</span> Project Tasks &amp; Code
+          </button>
+        </div>
+
+        <button type="button" class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">&#9790;</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Quick Key Metrics -->
+    <div class="kpi-banner">
+      <div class="kpi-card" style="--kpi-color: #38bdf8;">
+        <div class="kpi-title">
+          <span>Baseline Model Cost</span>
+          <span>&#128176;</span>
+        </div>
+        <div class="kpi-value" id="kpiBaselineCost">$5,469.00</div>
+        <div class="kpi-sub">Standard Codecademy 28yo female (BMI 26.2, 3 children, non-smoker)</div>
+      </div>
+
+      <div class="kpi-card" style="--kpi-color: #10b981;">
+        <div class="kpi-title">
+          <span>Current Profile Cost</span>
+          <span>&#9889;</span>
+        </div>
+        <div class="kpi-value" id="kpiCurrentCost">$5,469.00</div>
+        <div class="kpi-sub" id="kpiCurrentDelta">Identical to baseline (Delta: $0.00)</div>
+      </div>
+
+      <div class="kpi-card" style="--kpi-color: #f43f5e;">
+        <div class="kpi-title">
+          <span>Smoker Premium Impact</span>
+          <span>&#128684;</span>
+        </div>
+        <div class="kpi-value">+$24,000.00</div>
+        <div class="kpi-sub">+438.8% cost multiplier across all demographics</div>
+      </div>
+
+      <div class="kpi-card" style="--kpi-color: #a855f7;">
+        <div class="kpi-title">
+          <span>Annual Age Slope</span>
+          <span>&#128197;</span>
+        </div>
+        <div class="kpi-value">+$250.00<span style="font-size: 1rem; color: var(--text-dim);">/yr</span></div>
+        <div class="kpi-sub">+$1,000 for every 4-year age bracket increase</div>
+      </div>
+    </div>
+
+    <!-- TAB 1: SIMULATOR & LIVE FORMULA -->
+    <div class="tab-pane active" id="tab-simulator">
+      <div class="dashboard-grid">
+        <!-- Controls Column -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">&#9881; Factor Input Parameters</h2>
+            <span class="panel-badge">Interactive Controls</span>
+          </div>
+
+          <div class="controls-grid">
+            <!-- Age -->
+            <div class="input-group">
+              <div class="input-header">
+                <label class="input-label" for="sliderAge">&#128100; Age (Years)</label>
+                <span class="input-display" id="displayAge">28 yrs</span>
+              </div>
+              <input type="range" class="range-slider" id="sliderAge" min="18" max="90" value="28" step="1">
+              <div class="slider-ticks">
+                <span>18</span>
+                <span>28 (Base)</span>
+                <span>32 (+4 yrs)</span>
+                <span>50</span>
+                <span>90</span>
+              </div>
+            </div>
+
+            <!-- Sex -->
+            <div class="input-group">
+              <div class="input-header">
+                <label class="input-label">&#9893; Biological Sex</label>
+                <span class="input-display" id="displaySex">Female (0)</span>
+              </div>
+              <div class="btn-toggle-group">
+                <button type="button" class="btn-toggle active" id="btnSexFemale" data-sex="0">&#9792; Female (0)</button>
+                <button type="button" class="btn-toggle" id="btnSexMale" data-sex="1">&#9794; Male (1)</button>
+              </div>
+            </div>
+
+            <!-- BMI -->
+            <div class="input-group">
+              <div class="input-header">
+                <label class="input-label" for="sliderBmi">&#9878; Body Mass Index (BMI)</label>
+                <span class="input-display" id="displayBmi">26.2 <small id="displayBmiClass">(Overweight)</small></span>
+              </div>
+              <input type="range" class="range-slider" id="sliderBmi" min="15.0" max="50.0" value="26.2" step="0.1">
+              <div class="slider-ticks">
+                <span>15.0 (Under)</span>
+                <span>24.9 (Normal)</span>
+                <span>26.2 (Base)</span>
+                <span>29.3 (+3.1)</span>
+                <span>50.0</span>
+              </div>
+            </div>
+
+            <!-- Children -->
+            <div class="input-group">
+              <div class="input-header">
+                <label class="input-label" for="sliderChildren">&#128106; Number of Children</label>
+                <span class="input-display" id="displayChildren">3 children</span>
+              </div>
+              <input type="range" class="range-slider" id="sliderChildren" min="0" max="8" value="3" step="1">
+              <div class="slider-ticks">
+                <span>0</span>
+                <span>1</span>
+                <span>3 (Base)</span>
+                <span>4 (+1)</span>
+                <span>8</span>
+              </div>
+            </div>
+
+            <!-- Smoker -->
+            <div class="input-group">
+              <div class="input-header">
+                <label class="input-label">&#128684; Smoker Status</label>
+                <span class="input-display" id="displaySmoker">Non-Smoker (0)</span>
+              </div>
+              <div class="btn-toggle-group">
+                <button type="button" class="btn-toggle active" id="btnSmokerNo" data-smoker="0">Non-Smoker (0)</button>
+                <button type="button" class="btn-toggle" id="btnSmokerYes" data-smoker="1">&#128293; Smoker (1)</button>
+              </div>
+            </div>
+
+            <!-- Quick Presets -->
+            <div class="presets-container">
+              <span class="preset-label">Load Presets:</span>
+              <button type="button" class="preset-chip" id="presetBase">&#9733; Codecademy Base</button>
+              <button type="button" class="preset-chip" id="presetAge4">&#128197; Task 4: Age +4</button>
+              <button type="button" class="preset-chip" id="presetBmi">&#9878; Task 8: BMI +3.1</button>
+              <button type="button" class="preset-chip" id="presetMale">&#9794; Task 10: Male</button>
+              <button type="button" class="preset-chip" id="presetSmoker">&#128684; Task 13: Smoker</button>
+              <button type="button" class="preset-chip" id="presetChild">&#128106; Task 13: +1 Child</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Results & Math Breakdown Column -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">&#128178; Insurance Cost &amp; Decomposition</h2>
+            <span class="panel-badge">Formula Evaluation</span>
+          </div>
+
+          <!-- Hero Cost Display -->
+          <div class="results-hero">
+            <div class="results-hero-label">Estimated Annual Medical Insurance Cost</div>
+            <div class="cost-main-display" id="heroTotalCost">$5,469.00</div>
+            <div class="cost-secondary-display">
+              Monthly Equivalence: <strong id="heroMonthlyCost">$455.75 / mo</strong>
+            </div>
+          </div>
+
+          <!-- Dynamic Equation Box -->
+          <div class="equation-box">
+            <div class="equation-title">
+              <span>Dynamic Formula Computation</span>
+              <span id="eqStatusBadge" style="color: #38bdf8;">Codecademy Formula</span>
+            </div>
+            <div class="equation-text" id="equationOutput">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+
+          <!-- Factor Impact Waterfall -->
+          <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
+            <span>Factor Contribution Breakdown</span>
+            <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: normal;">Relative to $0 sum</span>
+          </h3>
+
+          <div class="factors-breakdown" id="factorsList">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: SENSITIVITY LAB -->
+    <div class="tab-pane" id="tab-sensitivity">
+      <div style="margin-bottom: 22px;">
+        <h2 style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em;">Factor Sensitivity &amp; Comparative Analysis</h2>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">
+          Direct mathematical reproduction of the sensitivity experiments performed in Tasks 4 through 13 of the project.
+        </p>
+      </div>
+
+      <div class="sensitivity-grid">
+        <!-- Card 1: Age Factor (+4 yrs) -->
+        <div class="sensitivity-card">
+          <div class="sens-header">
+            <div>
+              <h3 class="sens-title">Task 4&ndash;7: Age Factor</h3>
+              <p class="sens-desc">Evaluating impact of aging 4 years (28 &rarr; 32 years old) holding other variables constant.</p>
+            </div>
+            <span class="sens-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">Linear +$250/yr</span>
+          </div>
+          <div class="sens-metrics">
+            <div>
+              <div class="metric-box-label">New Cost</div>
+              <div class="metric-box-val" style="color: var(--text-main);">$6,469.00</div>
+            </div>
+            <div>
+              <div class="metric-box-label">Net Delta</div>
+              <div class="metric-box-val" style="color: #10b981;">+$1,000.00</div>
+            </div>
+          </div>
+          <button type="button" class="sens-action-btn" onclick="applyPreset('age4')">Apply Age +4 to Simulator</button>
+        </div>
+
+        <!-- Card 2: BMI Factor (+3.1 BMI) -->
+        <div class="sensitivity-card">
+          <div class="sens-header">
+            <div>
+              <h3 class="sens-title">Task 8&ndash;9: BMI Factor</h3>
+              <p class="sens-desc">Increasing body mass index by 3.1 points (26.2 &rarr; 29.3 BMI) with age reset to 28.</p>
+            </div>
+            <span class="sens-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">+$370 / BMI</span>
+          </div>
+          <div class="sens-metrics">
+            <div>
+              <div class="metric-box-label">New Cost</div>
+              <div class="metric-box-val" style="color: var(--text-main);">$6,616.00</div>
+            </div>
+            <div>
+              <div class="metric-box-label">Net Delta</div>
+              <div class="metric-box-val" style="color: #f59e0b;">+$1,147.00</div>
+            </div>
+          </div>
+          <button type="button" class="sens-action-btn" onclick="applyPreset('bmi')">Apply BMI +3.1 to Simulator</button>
+        </div>
+
+        <!-- Card 3: Male vs Female Factor -->
+        <div class="sensitivity-card">
+          <div class="sens-header">
+            <div>
+              <h3 class="sens-title">Task 10&ndash;12: Biological Sex Factor</h3>
+              <p class="sens-desc">Switching biological sex from female (0) to male (1), with BMI reset to 26.2.</p>
+            </div>
+            <span class="sens-badge" style="background: rgba(168, 85, 247, 0.15); color: #a855f7;">Discount -$128</span>
+          </div>
+          <div class="sens-metrics">
+            <div>
+              <div class="metric-box-label">New Cost</div>
+              <div class="metric-box-val" style="color: var(--text-main);">$5,341.00</div>
+            </div>
+            <div>
+              <div class="metric-box-label">Net Delta</div>
+              <div class="metric-box-val" style="color: #a855f7;">-$128.00</div>
+            </div>
+          </div>
+          <button type="button" class="sens-action-btn" onclick="applyPreset('male')">Apply Male Sex to Simulator</button>
+        </div>
+
+        <!-- Card 4: Smoker Factor (Extra Practice) -->
+        <div class="sensitivity-card">
+          <div class="sens-header">
+            <div>
+              <h3 class="sens-title">Task 13A: Smoker Factor</h3>
+              <p class="sens-desc">Impact of tobacco smoking status (smoker = 1 vs non-smoker = 0). Dominant risk factor.</p>
+            </div>
+            <span class="sens-badge" style="background: rgba(244, 63, 94, 0.15); color: #f43f5e;">Surge +$24k</span>
+          </div>
+          <div class="sens-metrics">
+            <div>
+              <div class="metric-box-label">New Cost</div>
+              <div class="metric-box-val" style="color: var(--text-main);">$29,469.00</div>
+            </div>
+            <div>
+              <div class="metric-box-label">Net Delta</div>
+              <div class="metric-box-val" style="color: #f43f5e;">+$24,000.00</div>
+            </div>
+          </div>
+          <button type="button" class="sens-action-btn" onclick="applyPreset('smoker')">Apply Smoker to Simulator</button>
+        </div>
+
+        <!-- Card 5: Children Factor (Extra Practice) -->
+        <div class="sensitivity-card">
+          <div class="sens-header">
+            <div>
+              <h3 class="sens-title">Task 13B: Dependent Children</h3>
+              <p class="sens-desc">Adding 1 additional dependent child (from 3 to 4 children) for a non-smoking woman.</p>
+            </div>
+            <span class="sens-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">+$425 / Child</span>
+          </div>
+          <div class="sens-metrics">
+            <div>
+              <div class="metric-box-label">New Cost</div>
+              <div class="metric-box-val" style="color: var(--text-main);">$5,894.00</div>
+            </div>
+            <div>
+              <div class="metric-box-label">Net Delta</div>
+              <div class="metric-box-val" style="color: #10b981;">+$425.00</div>
+            </div>
+          </div>
+          <button type="button" class="sens-action-btn" onclick="applyPreset('child')">Apply +1 Child to Simulator</button>
+        </div>
+
+        <!-- Card 6: Cumulative High Risk Profile -->
+        <div class="sensitivity-card" style="border-color: rgba(244, 63, 94, 0.35);">
+          <div class="sens-header">
+            <div>
+              <h3 class="sens-title">Extreme Risk Profile</h3>
+              <p class="sens-desc">55yo, male, BMI 35.0 (Obese), smoker, with 4 children.</p>
+            </div>
+            <span class="sens-badge" style="background: rgba(244, 63, 94, 0.2); color: #f43f5e;">High Risk</span>
+          </div>
+          <div class="sens-metrics">
+            <div>
+              <div class="metric-box-label">New Cost</div>
+              <div class="metric-box-val" style="color: #f43f5e;">$39,822.00</div>
+            </div>
+            <div>
+              <div class="metric-box-label">Net Delta</div>
+              <div class="metric-box-val" style="color: #f43f5e;">+$34,353.00</div>
+            </div>
+          </div>
+          <button type="button" class="sens-action-btn" onclick="applyExtremeProfile()">Apply Extreme Profile</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: PROJECT TASKS & CODE -->
+    <div class="tab-pane" id="tab-tasks">
+      <div style="margin-bottom: 22px;">
+        <h2 style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em;">Codecademy Project Walkthrough &amp; Python Code</h2>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px;">
+          Complete code solutions, execution outputs, and analytical reflections across all 13 tasks.
+        </p>
+      </div>
+
+      <div class="tasks-container">
+        <!-- Task 1 -->
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Task 1: Setting up Demographic Factors</h3>
+            <span class="task-num-badge">Task 1 of 13</span>
+          </div>
+          <p class="task-desc">
+            Declare variables for an initial 28-year-old, non-smoking woman who has 3 children and a BMI of 26.2.
+          </p>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>Python Code (script.py / Notebook Cell 4)</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre class="code-content"># create initial variables
+age = 28
+sex = 0  # 0 for female, 1 for male
+bmi = 26.2
+num_of_children = 3
+smoker = 0  # 0 for non-smoker, 1 for smoker</pre>
+          </div>
+        </div>
+
+        <!-- Task 2 & 3 -->
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Task 2 &amp; 3: The Insurance Formula &amp; Initial Output</h3>
+            <span class="task-num-badge">Task 2 &amp; 3 of 13</span>
+          </div>
+          <p class="task-desc">
+            Implement the formula and display the cost string using string concatenation and <code>str()</code>.
+          </p>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>Python Code (Notebook Cells 7 &amp; 9)</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre class="code-content"># Initial Insurance Cost Formula
+insurance_cost = 250 * age - 128 * sex + 370 * bmi + 425 * num_of_children + 24000 * smoker - 12500
+
+print("This person's insurance cost is " + str(insurance_cost) + " dollars.")</pre>
+          </div>
+          <div class="terminal-output">
+            &gt; This person's insurance cost is 5469.0 dollars.
+          </div>
+        </div>
+
+        <!-- Task 4 - 7 -->
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Task 4&ndash;7: Age Factor Analysis</h3>
+            <span class="task-num-badge">Task 4&ndash;7 of 13</span>
+          </div>
+          <p class="task-desc">
+            Use the <code>+=</code> operator to increase age by 4, recalculate new cost, compute difference, and print.
+          </p>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>Python Code (Notebook Cells 12, 14, 16, 18)</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre class="code-content"># Age Factor
+age += 4
+new_insurance_cost = 250 * age - 128 * sex + 370 * bmi + 425 * num_of_children + 24000 * smoker - 12500
+change_in_insurance_cost = new_insurance_cost - insurance_cost
+
+print("The change in cost of insurance after increasing the age by 4 years is " + str(change_in_insurance_cost) + " dollars.")</pre>
+          </div>
+          <div class="terminal-output">
+            &gt; The change in cost of insurance after increasing the age by 4 years is 1000.0 dollars.
+          </div>
+        </div>
+
+        <!-- Task 8 - 9 -->
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Task 8&ndash;9: BMI Factor Analysis</h3>
+            <span class="task-num-badge">Task 8&ndash;9 of 13</span>
+          </div>
+          <p class="task-desc">
+            Reset age back to 28, add 3.1 to BMI, compute change and print formatted estimate.
+          </p>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>Python Code (Notebook Cells 21 &amp; 23)</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre class="code-content"># BMI Factor
+age = 28
+bmi += 3.1
+new_insurance_cost = 250 * age - 128 * sex + 370 * bmi + 425 * num_of_children + 24000 * smoker - 12500
+change_in_insurance_cost = new_insurance_cost - insurance_cost
+
+print("The change in estimated insurance cost after increasing BMI by 3.1 is " + str(change_in_insurance_cost) + " dollars.")</pre>
+          </div>
+          <div class="terminal-output">
+            &gt; The change in estimated insurance cost after increasing BMI by 3.1 is 1147.0 dollars.
+          </div>
+        </div>
+
+        <!-- Task 10 - 12 -->
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Task 10&ndash;12: Male vs. Female Factor Analysis</h3>
+            <span class="task-num-badge">Task 10&ndash;12 of 13</span>
+          </div>
+          <p class="task-desc">
+            Reset BMI to 26.2, set <code>sex = 1</code> (male), and observe negative delta.
+          </p>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>Python Code (Notebook Cells 26 &amp; 28)</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre class="code-content"># Male vs. Female Factor
+bmi = 26.2
+sex = 1
+new_insurance_cost = 250 * age - 128 * sex + 370 * bmi + 425 * num_of_children + 24000 * smoker - 12500
+change_in_insurance_cost = new_insurance_cost - insurance_cost
+
+print("The change in estimated cost for being male instead of female is " + str(change_in_insurance_cost) + " dollars.")</pre>
+          </div>
+          <div class="terminal-output">
+            &gt; The change in estimated cost for being male instead of female is -128.0 dollars.
+          </div>
+          <div class="reflection-callout">
+            <strong>Task 12 Reflection:</strong> The change is -$128.00 dollars. In this dataset and regression formula, male individuals had slightly lower predicted medical expenditures on average than females, though health risks vary widely by condition.
+          </div>
+        </div>
+
+        <!-- Task 13 -->
+        <div class="task-card">
+          <div class="task-header">
+            <h3 class="task-title">Task 13: Extra Practice &mdash; Smoker &amp; Children Factors</h3>
+            <span class="task-num-badge">Task 13 of 13</span>
+          </div>
+          <p class="task-desc">
+            Challenge exercise to complete investigations for the remaining factors: <code>smoker</code> and <code>num_of_children</code>.
+          </p>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>Python Code (Notebook Cells 33 &amp; 34)</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre class="code-content"># Extra Practice: Smoker Factor
+sex = 0
+smoker = 1
+new_insurance_cost = 250 * age - 128 * sex + 370 * bmi + 425 * num_of_children + 24000 * smoker - 12500
+change_in_insurance_cost = new_insurance_cost - insurance_cost
+print("The change in estimated cost for being a smoker is " + str(change_in_insurance_cost) + " dollars.")
+
+# Extra Practice: Number of Children Factor
+smoker = 0
+num_of_children += 1
+new_insurance_cost = 250 * age - 128 * sex + 370 * bmi + 425 * num_of_children + 24000 * smoker - 12500
+change_in_insurance_cost = new_insurance_cost - insurance_cost
+print("The change in estimated cost for having 1 additional child is " + str(change_in_insurance_cost) + " dollars.")</pre>
+          </div>
+          <div class="terminal-output">
+            &gt; The change in estimated cost for being a smoker is 24000.0 dollars.<br>
+            &gt; The change in estimated cost for having 1 additional child is 425.0 dollars.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div>
+      <strong>MediCalc Pro</strong> &bull; Codecademy Python Syntax Medical Insurance Project Workspace
+    </div>
+    <div class="footer-links">
+      <span>&#128193; Location: <code>medical_insurance/</code></span>
+      <span>&#128013; Python 3.x</span>
+      <span>&#128211; Jupyter Notebook Complete</span>
+    </div>
+  </footer>
+
+  <script>
+    // State
+    const BASELINE = {
+      age: 28,
+      sex: 0,
+      bmi: 26.2,
+      num_of_children: 3,
+      smoker: 0
+    };
+
+    let state = { ...BASELINE };
+
+    // Cost formula
+    function calculateCost(age, sex, bmi, num_of_children, smoker) {
+      return 250 * age - 128 * sex + 370 * bmi + 425 * num_of_children + 24000 * smoker - 12500;
+    }
+
+    const baselineCost = calculateCost(BASELINE.age, BASELINE.sex, BASELINE.bmi, BASELINE.num_of_children, BASELINE.smoker);
+
+    // DOM Elements
+    const sliderAge = document.getElementById('sliderAge');
+    const displayAge = document.getElementById('displayAge');
+    const btnSexFemale = document.getElementById('btnSexFemale');
+    const btnSexMale = document.getElementById('btnSexMale');
+    const displaySex = document.getElementById('displaySex');
+    const sliderBmi = document.getElementById('sliderBmi');
+    const displayBmi = document.getElementById('displayBmi');
+    const displayBmiClass = document.getElementById('displayBmiClass');
+    const sliderChildren = document.getElementById('sliderChildren');
+    const displayChildren = document.getElementById('displayChildren');
+    const btnSmokerNo = document.getElementById('btnSmokerNo');
+    const btnSmokerYes = document.getElementById('btnSmokerYes');
+    const displaySmoker = document.getElementById('displaySmoker');
+
+    const heroTotalCost = document.getElementById('heroTotalCost');
+    const heroMonthlyCost = document.getElementById('heroMonthlyCost');
+    const equationOutput = document.getElementById('equationOutput');
+    const factorsList = document.getElementById('factorsList');
+    const kpiCurrentCost = document.getElementById('kpiCurrentCost');
+    const kpiCurrentDelta = document.getElementById('kpiCurrentDelta');
+
+    // BMI classification helper
+    function getBmiClass(bmi) {
+      if (bmi < 18.5) return '(Underweight)';
+      if (bmi < 25) return '(Normal weight)';
+      if (bmi < 30) return '(Overweight)';
+      if (bmi < 35) return '(Obese Class I)';
+      return '(Obese Class II+)';
+    }
+
+    // Format currency
+    function fmt(num, withSign = false) {
+      const sign = withSign && num > 0 ? '+' : '';
+      return sign + '$' + Math.abs(num).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // Update UI
+    function updateUI() {
+      const ageVal = parseFloat(state.age);
+      const sexVal = parseInt(state.sex);
+      const bmiVal = parseFloat(state.bmi);
+      const childVal = parseInt(state.num_of_children);
+      const smokerVal = parseInt(state.smoker);
+
+      const totalCost = calculateCost(ageVal, sexVal, bmiVal, childVal, smokerVal);
+      const monthlyCost = totalCost / 12;
+      const delta = totalCost - baselineCost;
+
+      // Inputs display
+      displayAge.textContent = `${ageVal} yrs`;
+      displaySex.textContent = sexVal === 1 ? 'Male (1)' : 'Female (0)';
+      displayBmi.innerHTML = `${bmiVal.toFixed(1)} <small id="displayBmiClass">${getBmiClass(bmiVal)}</small>`;
+      displayChildren.textContent = `${childVal} ${childVal === 1 ? 'child' : 'children'}`;
+      displaySmoker.textContent = smokerVal === 1 ? 'Smoker (1)' : 'Non-Smoker (0)';
+
+      // Sex buttons
+      btnSexFemale.classList.toggle('active', sexVal === 0);
+      btnSexMale.classList.toggle('active', sexVal === 1);
+
+      // Smoker buttons
+      btnSmokerNo.classList.toggle('active', smokerVal === 0);
+      btnSmokerYes.classList.toggle('active-danger', smokerVal === 1);
+      btnSmokerYes.classList.toggle('active', smokerVal === 1);
+
+      // Hero displays
+      heroTotalCost.textContent = fmt(totalCost);
+      heroMonthlyCost.textContent = fmt(monthlyCost) + ' / mo';
+
+      // KPI cards
+      kpiCurrentCost.textContent = fmt(totalCost);
+      if (delta === 0) {
+        kpiCurrentDelta.textContent = 'Identical to baseline (Delta: $0.00)';
+        kpiCurrentDelta.style.color = 'var(--text-dim)';
+      } else if (delta > 0) {
+        kpiCurrentDelta.textContent = `+${fmt(delta)} vs baseline (${((delta/baselineCost)*100).toFixed(1)}% higher)`;
+        kpiCurrentDelta.style.color = 'var(--accent-amber)';
+      } else {
+        kpiCurrentDelta.textContent = `-${fmt(Math.abs(delta))} vs baseline (${((Math.abs(delta)/baselineCost)*100).toFixed(1)}% lower)`;
+        kpiCurrentDelta.style.color = 'var(--accent-emerald)';
+      }
+
+      // Equation box
+      const agePart = 250 * ageVal;
+      const sexPart = 128 * sexVal;
+      const bmiPart = 370 * bmiVal;
+      const childPart = 425 * childVal;
+      const smokerPart = 24000 * smokerVal;
+
+      equationOutput.innerHTML = `
+        <div><strong>250</strong> &times; <span class="eq-num">${ageVal}</span> (Age: <span class="eq-num">$${agePart.toLocaleString()}</span>)</div>
+        <div><span class="eq-op">&minus;</span> <strong>128</strong> &times; <span class="eq-num">${sexVal}</span> (Sex: <span class="eq-num">-$${sexPart.toLocaleString()}</span>)</div>
+        <div><span class="eq-op">+</span> <strong>370</strong> &times; <span class="eq-num">${bmiVal.toFixed(1)}</span> (BMI: <span class="eq-num">+$${bmiPart.toLocaleString(undefined, {minimumFractionDigits: 1})}</span>)</div>
+        <div><span class="eq-op">+</span> <strong>425</strong> &times; <span class="eq-num">${childVal}</span> (Children: <span class="eq-num">+$${childPart.toLocaleString()}</span>)</div>
+        <div><span class="eq-op">+</span> <strong>24,000</strong> &times; <span class="eq-num">${smokerVal}</span> (Smoker: <span class="eq-num">+$${smokerPart.toLocaleString()}</span>)</div>
+        <div><span class="eq-op">&minus;</span> <strong>12,500</strong> (Base deduction)</div>
+        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-subtle); font-size: 0.95rem;">
+          = <strong class="eq-res">${fmt(totalCost)}</strong>
+        </div>
+      `;
+
+      // Breakdown factors list
+      const factors = [
+        { name: 'Age Component', tag: `250 × ${ageVal}`, val: agePart, color: '#38bdf8' },
+        { name: 'Sex Adjustment', tag: `-128 × ${sexVal}`, val: -sexPart, color: '#a855f7' },
+        { name: 'BMI Component', tag: `370 × ${bmiVal.toFixed(1)}`, val: bmiPart, color: '#10b981' },
+        { name: 'Children Component', tag: `425 × ${childVal}`, val: childPart, color: '#f59e0b' },
+        { name: 'Smoker Component', tag: `24000 × ${smokerVal}`, val: smokerPart, color: '#f43f5e' },
+        { name: 'Base Model Constant', tag: 'Constant', val: -12500, color: '#64748b' }
+      ];
+
+      const maxPositive = Math.max(...factors.map(f => Math.max(0, f.val)), 1);
+
+      factorsList.innerHTML = factors.map(f => {
+        const valClass = f.val > 0 ? 'val-positive' : (f.val < 0 ? 'val-negative' : 'val-neutral');
+        const pct = Math.min(100, Math.max(2, (Math.abs(f.val) / maxPositive) * 100));
+        return `
+          <div class="factor-item">
+            <div class="factor-meta">
+              <span class="factor-name">${f.name} <span class="factor-tag">${f.tag}</span></span>
+              <span class="factor-val ${valClass}">${f.val >= 0 ? '+' : ''}$${Math.abs(f.val).toLocaleString(undefined, {minimumFractionDigits: 1})}</span>
+            </div>
+            <div class="factor-bar-bg">
+              <div class="factor-bar-fill" style="width: ${pct}%; background: ${f.color};"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Preset handlers
+    function applyPreset(name) {
+      if (name === 'base') {
+        state = { ...BASELINE };
+      } else if (name === 'age4') {
+        state = { ...BASELINE, age: 32 };
+      } else if (name === 'bmi') {
+        state = { ...BASELINE, bmi: 29.3 };
+      } else if (name === 'male') {
+        state = { ...BASELINE, sex: 1 };
+      } else if (name === 'smoker') {
+        state = { ...BASELINE, smoker: 1 };
+      } else if (name === 'child') {
+        state = { ...BASELINE, num_of_children: 4 };
+      }
+
+      sliderAge.value = state.age;
+      sliderBmi.value = state.bmi;
+      sliderChildren.value = state.num_of_children;
+      updateUI();
+
+      // Switch to simulator tab if not already on it
+      switchTab('tab-simulator');
+    }
+
+    function applyExtremeProfile() {
+      state = {
+        age: 55,
+        sex: 1,
+        bmi: 35.0,
+        num_of_children: 4,
+        smoker: 1
+      };
+      sliderAge.value = state.age;
+      sliderBmi.value = state.bmi;
+      sliderChildren.value = state.num_of_children;
+      updateUI();
+      switchTab('tab-simulator');
+    }
+
+    // Tab switcher
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.classList.add('active');
+
+      const targetBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+      if (targetBtn) targetBtn.classList.add('active');
+    }
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-tab');
+        switchTab(tab);
+      });
+    });
+
+    // Slider inputs
+    sliderAge.addEventListener('input', (e) => {
+      state.age = parseFloat(e.target.value);
+      updateUI();
+    });
+
+    sliderBmi.addEventListener('input', (e) => {
+      state.bmi = parseFloat(e.target.value);
+      updateUI();
+    });
+
+    sliderChildren.addEventListener('input', (e) => {
+      state.num_of_children = parseInt(e.target.value);
+      updateUI();
+    });
+
+    btnSexFemale.addEventListener('click', () => {
+      state.sex = 0;
+      updateUI();
+    });
+
+    btnSexMale.addEventListener('click', () => {
+      state.sex = 1;
+      updateUI();
+    });
+
+    btnSmokerNo.addEventListener('click', () => {
+      state.smoker = 0;
+      updateUI();
+    });
+
+    btnSmokerYes.addEventListener('click', () => {
+      state.smoker = 1;
+      updateUI();
+    });
+
+    // Preset chips
+    document.getElementById('presetBase').addEventListener('click', () => applyPreset('base'));
+    document.getElementById('presetAge4').addEventListener('click', () => applyPreset('age4'));
+    document.getElementById('presetBmi').addEventListener('click', () => applyPreset('bmi'));
+    document.getElementById('presetMale').addEventListener('click', () => applyPreset('male'));
+    document.getElementById('presetSmoker').addEventListener('click', () => applyPreset('smoker'));
+    document.getElementById('presetChild').addEventListener('click', () => applyPreset('child'));
+
+    // Theme toggle
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    themeToggleBtn.addEventListener('click', () => {
+      const current = document.body.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', next);
+      themeToggleBtn.innerHTML = next === 'dark' ? '&#9790;' : '&#9788;';
+    });
+
+    // Copy code button helper
+    function copyCode(btn) {
+      const pre = btn.closest('.code-block-wrapper').querySelector('pre');
+      if (pre) {
+        navigator.clipboard.writeText(pre.innerText).then(() => {
+          const orig = btn.innerText;
+          btn.innerText = 'Copied!';
+          setTimeout(() => btn.innerText = orig, 1800);
+        });
+      }
+    }
+
+    // Initialize
+    updateUI();
+  </script>
+</body>
+</html>
