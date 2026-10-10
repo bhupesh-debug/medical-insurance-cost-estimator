@@ -1,0 +1,666 @@
+{
+  "magic_numbers": {
+    "PART_A_DEDUCTIBLE": 1736.0,
+    "PART_B_PREMIUM": 202.9,
+    "PART_B_DEDUCTIBLE": 283.0,
+    "IRMAA_TIER_1_SINGLE": 109000.0,
+    "IRMAA_TIER_1_MARRIED": 218000.0,
+    "PPSP_MULTIPLIER": 0.08583,
+    "PPSP_FEE": 1.0,
+    "PART_D_OOP_CAP": 2100.0,
+    "PART_D_BASE_PREMIUM": 38.99,
+    "INSULIN_MONTHLY_CAP": 35.0
+  },
+  "parts": {
+    "Part A": {
+      "title": "Hospital Insurance (Inpatient)",
+      "summary": "Covers inpatient hospital stays, skilled nursing facility care, hospice care, and home health care.",
+      "cost_model": "Premium-free for individuals (or spouses) who paid FICA Medicare taxes for at least 40 quarters (10 years).",
+      "premiums": {
+        "40_plus_quarters": 0.0,
+        "30_to_39_quarters": 311.0,
+        "under_30_quarters": 565.0
+      },
+      "deductible": 1736.0,
+      "deductible_period": "Per Benefit Period (NOT calendar year; starts day of admission, ends after 60 consecutive days out).",
+      "inpatient_hospital_schedule": [
+        {
+          "days": "Days 1\u201360",
+          "patient_pays": "$0 per day after paying $1,736 deductible"
+        },
+        {
+          "days": "Days 61\u201390",
+          "patient_pays": "$434 per day coinsurance"
+        },
+        {
+          "days": "Days 91\u2013150",
+          "patient_pays": "$868 per day (uses 60 non-renewable lifetime reserve days)"
+        },
+        {
+          "days": "Day 151+",
+          "patient_pays": "100% of all costs (Medicare pays nothing)"
+        }
+      ],
+      "snf_rehab_schedule": [
+        {
+          "days": "Days 1\u201320",
+          "patient_pays": "$0 per day (100% covered by Medicare)"
+        },
+        {
+          "days": "Days 21\u2013100",
+          "patient_pays": "$217 per day coinsurance"
+        },
+        {
+          "days": "Day 101+",
+          "patient_pays": "100% of all costs (Medicare stops paying)"
+        }
+      ],
+      "snf_prerequisites": [
+        "Medically necessary inpatient hospital stay of at least 3 consecutive days (not counting discharge day).",
+        "Admitted to Medicare-certified SNF within 30 days of hospital discharge.",
+        "Care must be for the same condition treated during hospital stay."
+      ]
+    },
+    "Part B": {
+      "title": "Medical Insurance (Outpatient)",
+      "summary": "Covers doctor/specialist visits, outpatient surgery, durable medical equipment (DME), diagnostic tests, labs, and preventive care.",
+      "standard_premium": 202.9,
+      "payment_method": "Deducted directly from monthly Social Security or Railroad Retirement Board benefit check.",
+      "deductible": 283.0,
+      "deductible_period": "Annual calendar year deductible (resets every January 1).",
+      "coinsurance": "80% Medicare / 20% Patient (NO annual out-of-pocket maximum in Original Medicare).",
+      "assignment": "Doctors who accept assignment agree to Medicare-approved rates as payment in full. Non-participating doctors can bill up to 15% limiting charge."
+    },
+    "Part C": {
+      "title": "Medicare Advantage (MA / MAPD)",
+      "summary": "Private Medicare-approved plans (HMO, PPO, PFFS, SNP, MSA) that bundle Part A, Part B, and usually Part D into a single managed network plan.",
+      "key_characteristics": [
+        "Replaces Original Medicare direct claims processing with private insurer networks.",
+        "Requires staying in-network for lowest cost-sharing; referrals may be needed for specialists.",
+        "Includes an annual maximum out-of-pocket (MOOP) limit for covered medical services.",
+        "Often includes supplemental perks like routine dental, vision, hearing, and gym memberships.",
+        "Cannot hold both a Medigap policy and a Medicare Advantage Plan simultaneously."
+      ],
+      "plan_types": [
+        "HMO (Health Maintenance Organization)",
+        "PPO (Preferred Provider Organization)",
+        "PFFS (Private Fee-for-Service)",
+        "SNP (Special Needs Plan: D-SNP, C-SNP, I-SNP)",
+        "MSA (Medical Savings Account)"
+      ]
+    },
+    "Part D": {
+      "title": "Prescription Drug Coverage",
+      "summary": "Outpatient prescription drug insurance provided through private standalone plans (PDP) or Medicare Advantage (MAPD).",
+      "statutory_law": "Enacted Medicare Modernization Act 2003, effective Jan 1, 2006. Reformed by Inflation Reduction Act 2022-2026.",
+      "key_benefits_2026": {
+        "out_of_pocket_cap": "$2,100.00 annual out-of-pocket cap per enrollee (increases to $2,400 in 2027).",
+        "insulin_cap": "Capped at $35.00 per 1-month supply with no deductible applied.",
+        "vaccines": "All ACIP-recommended adult vaccines (shingles, RSV, tetanus) covered at $0 cost.",
+        "mppp": "Medicare Prescription Payment Plan allows spreading out-of-pocket costs into 12 monthly installments ($175/mo in 2026, $200/mo in 2027)."
+      },
+      "late_penalty": "1% of national base premium ($38.99 in 2026) multiplied by number of uncovered full months without creditable coverage. Assessed for life."
+    }
+  },
+  "irmaa_tiers": [
+    {
+      "tier": 1,
+      "single_magi": [
+        0,
+        109000
+      ],
+      "married_magi": [
+        0,
+        218000
+      ],
+      "part_b_surcharge": 0.0,
+      "part_b_total": 202.9,
+      "part_d_surcharge": 0.0
+    },
+    {
+      "tier": 2,
+      "single_magi": [
+        109000.01,
+        137000
+      ],
+      "married_magi": [
+        218000.01,
+        274000
+      ],
+      "part_b_surcharge": 81.2,
+      "part_b_total": 284.1,
+      "part_d_surcharge": 14.5
+    },
+    {
+      "tier": 3,
+      "single_magi": [
+        137000.01,
+        171000
+      ],
+      "married_magi": [
+        274000.01,
+        342000
+      ],
+      "part_b_surcharge": 202.9,
+      "part_b_total": 405.8,
+      "part_d_surcharge": 37.5
+    },
+    {
+      "tier": 4,
+      "single_magi": [
+        171000.01,
+        205000
+      ],
+      "married_magi": [
+        342000.01,
+        410000
+      ],
+      "part_b_surcharge": 324.6,
+      "part_b_total": 527.5,
+      "part_d_surcharge": 60.5
+    },
+    {
+      "tier": 5,
+      "single_magi": [
+        205000.01,
+        500000
+      ],
+      "married_magi": [
+        410000.01,
+        750000
+      ],
+      "part_b_surcharge": 446.4,
+      "part_b_total": 649.3,
+      "part_d_surcharge": 83.5
+    },
+    {
+      "tier": 6,
+      "single_magi": [
+        500000.01,
+        Infinity
+      ],
+      "married_magi": [
+        750000.01,
+        Infinity
+      ],
+      "part_b_surcharge": 487.0,
+      "part_b_total": 689.9,
+      "part_d_surcharge": 91.0
+    }
+  ],
+  "enrollment_periods": {
+    "IEP": {
+      "name": "Initial Enrollment Period",
+      "duration": "7 Months",
+      "timeline": "3 months prior to 65th birthday month, the birthday month, and 3 months after.",
+      "coverage": "Enroll in Part A, Part B, Part D, or Medicare Advantage.",
+      "start_date": "If enrolled in first 3 months: 1st day of birthday month (or 1st of prior month if birthday is on the 1st). If enrolled during or after birthday month: 1st of following month.",
+      "risk": "Missing IEP triggers permanent Part B and Part D late enrollment penalties."
+    },
+    "Medigap_OEP": {
+      "name": "Medigap Open Enrollment Period",
+      "duration": "6 Months",
+      "timeline": "Starts the first day of the month you turn 65 AND are enrolled in Part B.",
+      "privilege": "Guaranteed Issue Rights: Cannot be turned down, cannot be charged higher rates for pre-existing conditions, guaranteed preferred rates. No health questions allowed.",
+      "advance_signup": "Can apply up to 9 months before turning 65 (sweet spot: 4-5 months before)."
+    },
+    "AEP": {
+      "name": "Annual Enrollment Period (Open Enrollment)",
+      "duration": "October 15 \u2013 December 7 (Every Year)",
+      "timeline": "8-week window each autumn.",
+      "rules": "Can switch between Original Medicare and MA, switch MA plans, join/drop Part D plans. Unlimited changes allowed; the last application submitted by Dec 7 takes effect on January 1."
+    },
+    "MA_OEP": {
+      "name": "Medicare Advantage Open Enrollment Period",
+      "duration": "January 1 \u2013 March 31 (Every Year)",
+      "timeline": "First quarter of the calendar year.",
+      "rules": "Available only to those already enrolled in a Medicare Advantage Plan. Allows a ONE-TIME switch to another MA plan or return to Original Medicare + standalone Part D. Effective 1st of next month."
+    },
+    "GEP": {
+      "name": "General Enrollment Period",
+      "duration": "January 1 \u2013 March 31 (Every Year)",
+      "timeline": "For beneficiaries who missed their IEP and do not qualify for an SEP.",
+      "rules": "Coverage begins the 1st of the month following enrollment. Lifetime Part B penalty applies (10% surcharge for each full 12-month period delayed)."
+    },
+    "SEP": {
+      "name": "Special Enrollment Period",
+      "duration": "Varies by triggering event (typically 63 days or 8 months)",
+      "scenarios": [
+        "Working past 65 with active group health insurance: 8-month window to enroll in Part B upon retirement without penalty (COBRA does NOT count).",
+        "Moving out of plan service area: 63-day window to select new plan.",
+        "Involuntary loss of creditable employer or union drug coverage: 63-day window.",
+        "Incarceration release, natural disaster emergency declared by governor (30-45 day relief)."
+      ]
+    }
+  },
+  "medigap_matrix": {
+    "Plan A": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "100%",
+      "blood": "100%",
+      "hospice": "100%",
+      "snf_coinsurance": "0%",
+      "part_a_deductible": "0%",
+      "part_b_deductible": "0%",
+      "part_b_excess": "0%",
+      "foreign_travel": "0%",
+      "oop_limit": "None"
+    },
+    "Plan B": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "100%",
+      "blood": "100%",
+      "hospice": "100%",
+      "snf_coinsurance": "0%",
+      "part_a_deductible": "100%",
+      "part_b_deductible": "0%",
+      "part_b_excess": "0%",
+      "foreign_travel": "0%",
+      "oop_limit": "None"
+    },
+    "Plan C": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "100%",
+      "blood": "100%",
+      "hospice": "100%",
+      "snf_coinsurance": "100%",
+      "part_a_deductible": "100%",
+      "part_b_deductible": "100%",
+      "part_b_excess": "0%",
+      "foreign_travel": "80%",
+      "oop_limit": "None",
+      "note": "Closed to new enrollees after Jan 1, 2020"
+    },
+    "Plan D": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "100%",
+      "blood": "100%",
+      "hospice": "100%",
+      "snf_coinsurance": "100%",
+      "part_a_deductible": "100%",
+      "part_b_deductible": "0%",
+      "part_b_excess": "0%",
+      "foreign_travel": "80%",
+      "oop_limit": "None"
+    },
+    "Plan F": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "100%",
+      "blood": "100%",
+      "hospice": "100%",
+      "snf_coinsurance": "100%",
+      "part_a_deductible": "100%",
+      "part_b_deductible": "100%",
+      "part_b_excess": "100%",
+      "foreign_travel": "80%",
+      "oop_limit": "None",
+      "note": "Closed to new enrollees after Jan 1, 2020"
+    },
+    "Plan G": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "100%",
+      "blood": "100%",
+      "hospice": "100%",
+      "snf_coinsurance": "100%",
+      "part_a_deductible": "100%",
+      "part_b_deductible": "0%",
+      "part_b_excess": "100%",
+      "foreign_travel": "80%",
+      "oop_limit": "None",
+      "note": "Most popular comprehensive plan for newly eligible seniors"
+    },
+    "Plan K": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "50%",
+      "blood": "50%",
+      "hospice": "50%",
+      "snf_coinsurance": "50%",
+      "part_a_deductible": "50%",
+      "part_b_deductible": "0%",
+      "part_b_excess": "0%",
+      "foreign_travel": "0%",
+      "oop_limit": "$7,220 (2025)"
+    },
+    "Plan L": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "75%",
+      "blood": "75%",
+      "hospice": "75%",
+      "snf_coinsurance": "75%",
+      "part_a_deductible": "75%",
+      "part_b_deductible": "0%",
+      "part_b_excess": "0%",
+      "foreign_travel": "0%",
+      "oop_limit": "$3,610 (2025)"
+    },
+    "Plan M": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "100%",
+      "blood": "100%",
+      "hospice": "100%",
+      "snf_coinsurance": "100%",
+      "part_a_deductible": "50%",
+      "part_b_deductible": "0%",
+      "part_b_excess": "0%",
+      "foreign_travel": "80%",
+      "oop_limit": "None"
+    },
+    "Plan N": {
+      "part_a_coinsurance": "100%",
+      "part_b_coinsurance": "100% (except up to $20 office copay & $50 ER copay)",
+      "blood": "100%",
+      "hospice": "100%",
+      "snf_coinsurance": "100%",
+      "part_a_deductible": "100%",
+      "part_b_deductible": "0%",
+      "part_b_excess": "0%",
+      "foreign_travel": "80%",
+      "oop_limit": "None"
+    }
+  },
+  "sales_scripts": {
+    "compliance_notice": {
+      "title": "Mandatory Compliance Notice (Form 6862)",
+      "script": "Bankers Life, Washington National, and their agents are not connected with or endorsed by the U.S. government or the federal Medicare program. When discussing Medicare options, agents MUST provide 'A Guide to Health Insurance for People with Medicare' (Form 6862)."
+    },
+    "fact_finder_bridge": {
+      "title": "Fact Finder to Needs Presentation Bridge",
+      "script": "Mr. / Mrs. / Ms. [Name], after listening to your answers on the Fact Finder, it seems Health Expenses and Medicare might be your most important concern. Would you agree?"
+    },
+    "scenario_a_turning_65": {
+      "title": "Scenario A: Turning 65 Soon (Initial Enrollment Period)",
+      "prospect": "I'm turning 65 in a few months, so I haven't signed up yet.",
+      "agent": "That makes complete sense! You are entering your Initial Enrollment Period\u2014a 7-month window (3 months before, your birthday month, and 3 months after). Signing up on time protects you from lifelong Part B penalties (10% per 12-month delay) and Part D drug penalties. While Original Medicare covers hospital and medical care, it leaves out-of-pocket gaps like the Part A hospital deductible ($1,736) and 20% Part B co-insurance with no cap. If I could show you how a Bankers Life plan fills those gaps within your budget, would that interest you?"
+    },
+    "scenario_b_working_past_65": {
+      "title": "Scenario B: Working Past 65 (Active Group Employer Plan)",
+      "prospect": "I'm 67, but I'm still working and covered under my company's group health plan.",
+      "agent": "That is very common today! Because you have coverage based on active employment, you qualify for an 8-month Special Enrollment Period (SEP) when you retire without penalty. (Note: COBRA or retiree plans do not qualify as active employment). Many retirees find that transitioning to Original Medicare with a Bankers Life Supplement offers broader doctor choice and lower out-of-pocket costs than group plans. When you prepare to retire, would you like us to review a side-by-side comparison?"
+    },
+    "scenario_c_under_65": {
+      "title": "Scenario C: Under 65 / Not Eligible for Medicare",
+      "prospect": "I'm only 58, so I'm nowhere near Medicare age.",
+      "agent": "I completely understand. Medicare is designed for age 65+ or specific qualifying disabilities. Since Medicare isn't part of your immediate picture, our focus today is protecting your income and accumulated savings from non-Medicare healthcare risks before you retire: 1) Assisted Care / Short-Term Care: Standard health plans do not cover extended in-home or facility care. 2) Critical Illness Cash Benefits: Cancer, stroke, or heart attacks create non-medical expense gaps. 3) Final Expenses: Ensuring burial costs never become a cash burden on your children. Which of these non-Medicare areas is most important for us to address today?"
+    },
+    "social_security_close": {
+      "title": "Closing Technique: The Social Security T-Chart Close",
+      "concept": "Draw a 'T' on paper. Left side: $1,700 check. Right side: $1,500 check.",
+      "dialogue": "I can appreciate your saying that, Mr. and Mrs. [Name]. Let's look at it this way\u2014suppose that tomorrow the federal government overhauled Social Security and you could actually choose the type of check you would receive each month. The first choice is a $1,700 Social Security check. With this first check, however, you get only Part A and Part B of Medicare. As we've seen, when you get sick or hurt, you could be responsible for sizeable medical bills for costs that Medicare doesn't cover. The second choice you have is a $1,500 Social Security check per month. But you get extra benefits with this check. With this check, you get Part A and Part B just as you did with the $1,700 choice. But in addition, you get further hospital coverage, doctor coverage after $283 deductible, up to 100 days of skilled care in a nursing home, home health care, and 100% service regarding claim support. Mr. and Mrs. [Name], which check would you rather have? ... Why do you say that? ... Well, we obviously can't change your Social Security check. But what we can do is make sure you have all the coverage many people find they need to supplement their Medicare plan."
+    },
+    "assumptive_close": {
+      "title": "Closing Technique: The Assumptive Close",
+      "script": "In order to get this going and protect your family, I just need the correct spelling of your beneficiary's full name... (Stop talking and write on application)"
+    },
+    "trial_close": {
+      "title": "Closing Technique: The Trial Close",
+      "script": "Mr. [Name], I have calculated the rate for different Medicare solutions, so we can see what the difference is. (Present Option Sheet) Of these choices, which of these plans best meets your needs and budget?"
+    }
+  },
+  "checkpoint_qa": {
+    "1": {
+      "q": "How many parts are there to Medicare?",
+      "a": "There are 4 parts to Medicare: Part A (Hospital), Part B (Medical), Part C (Medicare Advantage), and Part D (Prescription Drugs)."
+    },
+    "2": {
+      "q": "What is Medicaid?",
+      "a": "Medicaid is aid for the poor: a joint federal and state assistance program that helps pay medical costs for individuals with low income and limited assets (typically under $2,000)."
+    },
+    "3": {
+      "q": "What word best summarizes all of Part A's coverage?",
+      "a": "Hospital (Inpatient care: inpatient hospital, inpatient skilled nursing facility, hospice, and home healthcare)."
+    },
+    "4": {
+      "q": "What two requirements must be met for someone to qualify for Part A benefits during hospital stay?",
+      "a": "The patient must be formally ADMITTED as an inpatient with a physician's order, and receive medically necessary SKILLED care."
+    },
+    "5": {
+      "q": "What is the current deductible for Part-A?",
+      "a": "$1,736 in 2026 ($1,676 in 2025) per benefit period."
+    },
+    "6": {
+      "q": "When does the new benefit period start for Part-A?",
+      "a": "A benefit period starts the day an individual is formally admitted as an inpatient to a hospital or skilled nursing facility. It ends after they have been discharged for 60 consecutive days."
+    },
+    "7": {
+      "q": "What are the limitations to Part-A Skilled Nursing Care?",
+      "a": "1) Requires a minimum 3-day inpatient hospital stay. 2) Admission to SNF within 30 days of discharge for the same illness/injury. 3) Limited to 100 days per benefit period (Days 1\u201320: $0 copay; Days 21\u2013100: $217/day coinsurance; Days 101+: Medicare pays nothing)."
+    },
+    "8": {
+      "q": "How would you summarize Part B coverage?",
+      "a": "Medical (Outpatient care: physician visits, specialist care, outpatient procedures, labs, diagnostic tests, DME, and preventive screenings)."
+    },
+    "9": {
+      "q": "Who qualifies for Part B?",
+      "a": "Individuals age 65 or older who are U.S. citizens/permanent residents, OR individuals under 65 who have received Social Security Disability Insurance (SSDI) for 24 months, OR individuals diagnosed with ESRD or ALS."
+    },
+    "10": {
+      "q": "What are the deductible and co-pay limits to Part-B?",
+      "a": "Annual deductible is $283 in 2026 ($257 in 2025). After the deductible is met, coinsurance is 20% of the Medicare-approved amount with NO annual out-of-pocket maximum."
+    },
+    "11": {
+      "q": "What is the monthly premium for Part B?",
+      "a": "The standard monthly premium is $202.90 in 2026 ($185.00 in 2025), deducted automatically from Social Security checks, subject to IRMAA surcharges for higher earners."
+    },
+    "12": {
+      "q": "What is another name for Part C?",
+      "a": "Medicare Advantage (MA / MAPD)."
+    },
+    "13": {
+      "q": "Describe Part C.",
+      "a": "Part C plans are private health insurance plans approved by Medicare that replace Original Medicare benefits with private network plans (HMO/PPO). They bundle Part A and B (and usually Part D), have an annual out-of-pocket maximum, and often add dental, vision, and hearing."
+    },
+    "14": {
+      "q": "What is covered under Part D?",
+      "a": "Outpatient prescription drugs classified on plan formularies into tiers (Generics, Preferred Brands, Non-Preferred, Specialty), plus ACIP-recommended adult vaccines at $0 copay."
+    },
+    "15": {
+      "q": "What happens when someone does not enroll in Part-D when eligible?",
+      "a": "They incur a permanent lifetime late enrollment penalty of 1% of the national base premium ($38.99 in 2026) for every full month they were without creditable drug coverage, added to their monthly premium for life."
+    },
+    "16": {
+      "q": "Does Medicare cover custodial care?",
+      "a": "NO. Medicare does NOT cover non-skilled custodial care (help with bathing, dressing, eating, using the restroom, or non-skilled nursing home stays)."
+    },
+    "17": {
+      "q": "What other products do we offer that can provide more thorough coverage for Skilled Nursing Care?",
+      "a": "Short-Term Care (STC) / Long-Term Care (LTC) insurance policies and Bankers Life Medicare Supplement plans (which pay the Day 21\u2013100 SNF coinsurance of $217/day)."
+    },
+    "18": {
+      "q": "Can you ask health questions during an open enrollment period? Why, or why not?",
+      "a": "NO. During the 6-month Medigap Open Enrollment Period, beneficiaries have Guaranteed Issue Rights: insurance companies must issue the policy at preferred rates regardless of health history, pre-existing conditions, or claims."
+    }
+  },
+  "glossary": {
+    "ACO": {
+      "term": "Accountable Care Organization (ACO)",
+      "def": "A group of doctors, hospitals, and healthcare providers that coordinate patient care under Original Medicare to improve quality, eliminate duplicate testing, and prevent medical errors."
+    },
+    "Assignment": {
+      "term": "Assignment",
+      "def": "An agreement by a doctor, provider, or supplier to accept the Medicare-approved amount as payment in full. Participating providers cannot charge more than the standard deductible and 20% coinsurance."
+    },
+    "Benefit Period": {
+      "term": "Benefit Period",
+      "def": "Original Medicare's measure for hospital and SNF usage. Starts the day you are admitted as an inpatient; ends when you have been out of the hospital/SNF for 60 consecutive days. A new benefit period requires paying a new Part A deductible ($1,736)."
+    },
+    "Coinsurance": {
+      "term": "Coinsurance",
+      "def": "The percentage of costs you pay after meeting deductibles (e.g., 20% under Part B, or fixed daily coinsurances under Part A)."
+    },
+    "Copayment": {
+      "term": "Copayment",
+      "def": "A fixed dollar amount paid for a covered service (e.g., $20 doctor copay or $50 ER copay under Medigap Plan N)."
+    },
+    "Creditable Coverage": {
+      "term": "Creditable Prescription Drug Coverage",
+      "def": "Prescription coverage expected to pay at least as much as standard Part D (e.g., from employer, union, TRICARE, VA). Having creditable coverage exempts beneficiaries from Part D late enrollment penalties."
+    },
+    "DME": {
+      "term": "Durable Medical Equipment (DME)",
+      "def": "Equipment like oxygen, wheelchairs, walkers, and hospital beds ordered for home use. Covered under Part B (patient pays 20% coinsurance after deductible)."
+    },
+    "Formulary": {
+      "term": "Formulary",
+      "def": "The tiered list of prescription drugs covered by a Part D plan or Medicare Advantage plan, categorized into Tier 1 (Preferred Generic) through Tier 5 (Specialty)."
+    },
+    "Guaranteed Issue Rights": {
+      "term": "Guaranteed Issue Rights (Medigap)",
+      "def": "Legal protections requiring private insurers to sell you any Medigap plan without health underwriting, pre-existing condition exclusions, or rating up, during the 6-month Medigap Open Enrollment Period."
+    },
+    "IRMAA": {
+      "term": "Income-Related Monthly Adjustment Amount (IRMAA)",
+      "def": "A statutory monthly surcharge added to Part B and Part D premiums for individuals with Modified Adjusted Gross Income exceeding $109,000 (single) or $218,000 (married), based on IRS tax returns from 2 years prior."
+    },
+    "Lifetime Reserve Days": {
+      "term": "Lifetime Reserve Days",
+      "def": "60 additional non-renewable days Medicare covers when hospitalized beyond 90 days in a benefit period. Patient pays $868/day coinsurance. Once used, they are never restored."
+    },
+    "Medicaid": {
+      "term": "Medicaid",
+      "def": "Joint federal and state program providing healthcare assistance to low-income individuals with assets generally under $2,000 ('Aid for the poor')."
+    },
+    "Medigap": {
+      "term": "Medicare Supplement Insurance (Medigap)",
+      "def": "Private insurance policies (Plans A through N) designed to fill 'gaps' in Original Medicare by paying deductibles, coinsurances, and excess charges."
+    },
+    "MBI": {
+      "term": "Medicare Beneficiary Identifier (MBI)",
+      "def": "The 11-character random identifier on Medicare cards. Note: Never uses the letters S, L, O, I, B, or Z to avoid confusion with numbers 5, 1, 0, 1, 8, 2."
+    },
+    "MOON": {
+      "term": "Medicare Outpatient Observation Notice (MOON)",
+      "def": "A written notice hospitals must give patients held in observation status for more than 24 hours explaining why they are outpatient, not admitted inpatients."
+    },
+    "Part A": {
+      "term": "Medicare Part A",
+      "def": "Federal hospital insurance covering inpatient hospital care, SNF rehab, hospice, and home health care."
+    },
+    "Part B": {
+      "term": "Medicare Part B",
+      "def": "Federal medical insurance covering outpatient physician services, DME, preventive visits, and diagnostic procedures."
+    },
+    "Part C": {
+      "term": "Medicare Part C (Medicare Advantage)",
+      "def": "Private Medicare health plan alternative that bundles Part A, Part B, and Part D under managed care networks."
+    },
+    "Part D": {
+      "term": "Medicare Part D",
+      "def": "Federal prescription drug program covering retail and mail-order medications with a $2,100 out-of-pocket maximum in 2026."
+    },
+    "PPSP": {
+      "term": "Premium Payment Service Plan (PPSP)",
+      "def": "Bankers Life electronic funds transfer (EFT) calculation formula: Monthly Payment = (Annual Premium * 0.08583) + $1.00."
+    },
+    "SNF": {
+      "term": "Skilled Nursing Facility (SNF)",
+      "def": "A licensed medical facility providing short-term rehabilitative care (physical therapy, IV therapy) after a qualifying 3-day inpatient hospital stay."
+    }
+  },
+  "allowed_commands": {
+    "help": {
+      "syntax": "help [command]",
+      "desc": "Show all allowed commands or detailed documentation for a specific command.",
+      "example": "help calc-part-a"
+    },
+    "dict": {
+      "syntax": "dict <term>",
+      "desc": "Look up definitions, acronyms, and statutory concepts from Medicare handbook.",
+      "example": "dict IRMAA",
+      "aliases": [
+        "lookup",
+        "define"
+      ]
+    },
+    "terms": {
+      "syntax": "terms",
+      "desc": "List all available Medicare dictionary terms by category.",
+      "example": "terms"
+    },
+    "magic": {
+      "syntax": "magic",
+      "desc": "Display the 5 essential 'magic numbers' required by Bankers Life field training.",
+      "example": "magic",
+      "aliases": [
+        "numbers",
+        "summary"
+      ]
+    },
+    "calc-part-a": {
+      "syntax": "calc-part-a <hospital_days>",
+      "desc": "Calculate inpatient hospital out-of-pocket costs and lifetime reserve day usage.",
+      "example": "calc-part-a 75"
+    },
+    "calc-snf": {
+      "syntax": "calc-snf <rehab_days>",
+      "desc": "Calculate Skilled Nursing Facility (SNF) patient responsibility for rehab stay.",
+      "example": "calc-snf 45"
+    },
+    "calc-part-b": {
+      "syntax": "calc-part-b <annual_bills>",
+      "desc": "Calculate Medicare Part B annual deductible + 20% coinsurance liability.",
+      "example": "calc-part-b 5000"
+    },
+    "calc-ppsp": {
+      "syntax": "calc-ppsp <annual_premium>",
+      "desc": "Calculate Bankers Life PPSP monthly electronic funds transfer premium (Formula: Annual * 0.08583 + $1.00).",
+      "example": "calc-ppsp 1850"
+    },
+    "calc-irmaa": {
+      "syntax": "calc-irmaa <income> <single|married>",
+      "desc": "Calculate Income-Related Monthly Adjustment Amount (IRMAA) for Parts B & D.",
+      "example": "calc-irmaa 145000 single"
+    },
+    "calc-penalty-d": {
+      "syntax": "calc-penalty-d <uncovered_months> [year=2026]",
+      "desc": "Calculate lifelong Part D late enrollment penalty for uncovered months.",
+      "example": "calc-penalty-d 24"
+    },
+    "calc-total": {
+      "syntax": "calc-total <hospital_days> <snf_days> <doctor_bills> <income> <filing_status>",
+      "desc": "Simulate complete annual Medicare patient liability across Parts A, B, and IRMAA.",
+      "example": "calc-total 10 30 4000 85000 single"
+    },
+    "script": {
+      "syntax": "script <scenario>",
+      "desc": "Retrieve compliant Bankers Life sales scripts (turning65, working65, under65, socialsecurity, assumptive, trial, compliance).",
+      "example": "script socialsecurity",
+      "aliases": [
+        "sales"
+      ]
+    },
+    "plan": {
+      "syntax": "plan <letter|all|compare>",
+      "desc": "Inspect Medigap standardized plan coverage (Plans A, B, C, D, F, G, K, L, M, N).",
+      "example": "plan G"
+    },
+    "periods": {
+      "syntax": "periods [period_code]",
+      "desc": "Review Medicare enrollment periods (IEP, AEP, MA_OEP, GEP, SEP, Medigap_OEP).",
+      "example": "periods IEP"
+    },
+    "checkpoint": {
+      "syntax": "checkpoint <1-18|all>",
+      "desc": "Review Bankers Life Medicare Participant's Guide Checkpoint Q&A (1 to 18).",
+      "example": "checkpoint 5"
+    },
+    "quiz": {
+      "syntax": "quiz",
+      "desc": "Run an interactive 5-question training quiz to test Medicare knowledge.",
+      "example": "quiz"
+    },
+    "export-json": {
+      "syntax": "export-json [filepath]",
+      "desc": "Export complete Medicare dictionary database to a standalone JSON file.",
+      "example": "export-json medicare_data.json"
+    },
+    "exit": {
+      "syntax": "exit",
+      "desc": "Exit the interactive Medicare assistant.",
+      "example": "exit",
+      "aliases": [
+        "quit",
+        "q"
+      ]
+    }
+  }
+}
